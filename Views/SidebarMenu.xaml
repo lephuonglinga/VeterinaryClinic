@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="VeterinaryClinic.Views.SidebarMenu"  
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"   
+            xmlns:local="clr-namespace:VeterinaryClinic.Views"  
+            mc:Ignorable="d"   
+            d:DesignHeight="450" d:DesignWidth="800">  
+   <StackPanel Grid.Column="0" Background="#FF4F0F">  
+       <!-- Logo/Title -->  
+       <Ellipse Width="100" Height="100" StrokeThickness="1" HorizontalAlignment="Center">  
+           <Ellipse.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF4F0F" Offset="0.0"/>
+                    <GradientStop Color="#FF4F0F" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>  
+       </Ellipse>  
+
+       <!-- Menu -->  
+       <ListBox Background="Transparent" BorderThickness="0" Foreground="White">  
+           <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="17" FontWeight="Bold"/>  
+           <ListBoxItem Content="👤 Profiles" Padding="10" FontSize="17" FontWeight="Bold"/>  
+           <ListBoxItem Content="🐶 My Pets" Padding="10" FontSize="17" FontWeight="Bold"/>  
+           <ListBoxItem Content="📜 History" Padding="10" FontSize="17" FontWeight="Bold"/>  
+           <ListBoxItem Content="📄 Documents" Padding="10" FontSize="17" FontWeight="Bold"/>  
+       </ListBox>  
+
+       <!-- Optional: Profile at bottom -->  
+       <StackPanel VerticalAlignment="Bottom" Margin="10,20,10,10">  
+           <Separator Margin="0,10"/>  
+           <TextBlock Text="Diana Mary" FontSize="12" Foreground="White"/>  
+           <TextBlock Text="Workspace one" FontSize="10" Foreground="Wheat"/>  
+       </StackPanel>  
+   </StackPanel>  
+</UserControl>
