@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Sidebar -->
-        <views:SidebarMenu Grid.Column="0" Loaded="SidebarMenu_Loaded"/>
+        <views:SidebarMenu Grid.Column="0"/>
 
         <!-- Main Content Responsive -->
         <Border Grid.Column="1" Grid.ColumnSpan="2" Background="White" CornerRadius="10" Margin="10" Padding="20">

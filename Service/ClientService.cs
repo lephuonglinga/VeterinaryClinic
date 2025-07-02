@@ -17,7 +17,7 @@ namespace VeterinaryClinic.Service
             this.clientRepository = new ClientRepository();
         }
 
-        public Client GetClientByUser(User user)
+        public Client? GetClientByUser(User user)
         {
             return clientRepository.GetClientByUser(user);
         }

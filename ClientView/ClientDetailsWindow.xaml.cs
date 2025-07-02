@@ -20,7 +20,7 @@ namespace VeterinaryClinic
     /// </summary>
     public partial class ClientDetailsWindow : Window
     {
-        private static ClientDetailsWindow _instance;
+        private static ClientDetailsWindow? _instance;
         public ClientDetailsWindow()
         {
             InitializeComponent();            
@@ -39,14 +39,8 @@ namespace VeterinaryClinic
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            _instance = null; // reset singleton when closed
-        }
-
-        private void SidebarMenu_Loaded(object sender, RoutedEventArgs e)
-        {
-            // logic nếu cần, hoặc để trống
-            Console.WriteLine("Sidebar loaded");
-        }
+            _instance = null; 
+        }        
 
     }
 }

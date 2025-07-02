@@ -97,7 +97,7 @@ namespace VeterinaryClinic.Service
                     do
                     {
                         clientId = IdGenerator.GenerateUserId();
-                    } while (userRepository.IsClientIdTaken(clientId)); // đảm bảo không trùng
+                    } while (userRepository.IsClientIdTaken(clientId));
 
                     var client = new Client
                     {
@@ -108,6 +108,21 @@ namespace VeterinaryClinic.Service
                     };
                     userRepository.AddClient(client);
                 }
+                if("Doctor".Equals(user.Role))
+                {
+                    string doctorId;
+                    do
+                    {
+                        doctorId = IdGenerator.GenerateUserId();
+                    } while (userRepository.IsClientIdTaken(doctorId));
+                    var doctor = new Doctor
+                    {
+                        Username = user.Username,
+                        VcnNo = doctorId,                        
+                        UsernameNavigation = user
+                    };
+                    userRepository.AddDoctor(doctor);
+                }
                 return true;
             }
             catch(Exception e)
@@ -115,11 +130,11 @@ namespace VeterinaryClinic.Service
                 MessageBox.Show("Error happened.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }                        
+        }        
+
+
+
+
+
         }
-
-
-
-
-
-    }
 }

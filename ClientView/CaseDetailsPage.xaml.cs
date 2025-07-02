@@ -41,10 +41,6 @@ namespace VeterinaryClinic
         {
             NavigationService?.GoBack();
         }
-
-        private void SidebarMenu_Loaded(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("Sidebar loaded");
-        }
+        
     }
 }

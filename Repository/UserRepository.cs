@@ -33,5 +33,11 @@ class UserRepository
             context.Clients.Add(client);
             context.SaveChanges();
         }
+
+        internal void AddDoctor(Doctor doctor)
+        {
+            context.Doctors.Add(doctor);
+            context.SaveChanges();
+        }
     }
 }

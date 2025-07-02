@@ -27,9 +27,14 @@ namespace VeterinaryClinic
         private readonly PatientService patientService;
         private readonly VeterinaryClinicContext context = new VeterinaryClinicContext();
 
-        public MyPets(Client client)
+        public MyPets()
         {
+            Client? client = ClientContext.CurrentClient;
             InitializeComponent();
+            if (client == null)
+            {
+                throw new ArgumentNullException(nameof(client), "Client cannot be null.");
+            }
             currentClient = client;
             patientService = new PatientService();
             LoadPatientByClient();
@@ -63,20 +68,14 @@ namespace VeterinaryClinic
             }
 
         }
-
-        private void SidebarMenu_Loaded(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("Sidebar loaded");
-        }
-
+        
         private void ViewDetails_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var selectedPatient = button?.Tag as Patient;
 
             if (selectedPatient != null)
-            {
-                // Chuyển sang CaseDetailsPage
+            {                
                 NavigationService?.Navigate(new VeterinaryClinic.CaseDetailsPage(selectedPatient));
             }
         }

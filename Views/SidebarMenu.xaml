@@ -7,21 +7,19 @@
             mc:Ignorable="d"   
             d:DesignHeight="450" d:DesignWidth="800">  
    <StackPanel Grid.Column="0" Background="#FF4F0F">  
-       <!-- Logo/Title -->  
-       <Ellipse Width="100" Height="100" StrokeThickness="1" HorizontalAlignment="Center">  
-           <Ellipse.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#FF4F0F" Offset="0.0"/>
-                    <GradientStop Color="#FF4F0F" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Ellipse.Fill>  
-       </Ellipse>  
+       <!-- Logo/Title -->
+        <TextBlock Text="Vet Clinic Client"  
+                  FontSize="24"  
+                  FontWeight="Bold"  
+                  Foreground="White"  
+                  HorizontalAlignment="Center"  
+                  Margin="0,20,0,20"/>
 
-       <!-- Menu -->  
+        <!-- Menu -->  
        <ListBox Background="Transparent" BorderThickness="0" Foreground="White">  
-           <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="17" FontWeight="Bold"/>  
-           <ListBoxItem Content="👤 Profiles" Padding="10" FontSize="17" FontWeight="Bold"/>  
-           <ListBoxItem Content="🐶 My Pets" Padding="10" FontSize="17" FontWeight="Bold"/>  
+           <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="17" FontWeight="Bold"/>
+            <ListBoxItem Content="👤 Profiles" Padding="10" FontSize="17" FontWeight="Bold" Selected="Profile_Selected"/>  
+           <ListBoxItem Content="🐶 My Pets" Padding="10" FontSize="17" FontWeight="Bold" Selected="MyPets_Selected"/>  
            <ListBoxItem Content="📜 History" Padding="10" FontSize="17" FontWeight="Bold"/>  
            <ListBoxItem Content="📄 Documents" Padding="10" FontSize="17" FontWeight="Bold"/>  
        </ListBox>  

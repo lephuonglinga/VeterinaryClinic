@@ -13,33 +13,34 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VeterinaryClinic.Models;
+using VeterinaryClinic.DoctorView;
 
 namespace VeterinaryClinic.Views
 {
     /// <summary>
-    /// Interaction logic for SidebarMenu.xaml
+    /// Interaction logic for DoctorSidebar.xaml
     /// </summary>
-    public partial class SidebarMenu : UserControl
+    public partial class DoctorSidebar : UserControl
     {
-        public SidebarMenu()
+        public DoctorSidebar()
         {
             InitializeComponent();
         }
 
-        private void Profile_Selected(object sender, RoutedEventArgs e)
+        private void Client_Selected(object sender, RoutedEventArgs e)
         {
-            CheckRole("Client details window is not available.", new ClientProfile());
+            CheckRole("Client List window is not available.", new ClientList());
         }
 
-        private void MyPets_Selected(object sender, RoutedEventArgs e)
+        private void Patient_Selected(object sender, RoutedEventArgs e)
         {
-            CheckRole("Client details window is not available.", new MyPets());
+            CheckRole("Patient List window is not available.", new PatientList(new Client()));
         }
 
         private void CheckRole(string message, Page page)
         {
-            Client? user = ClientContext.CurrentClient;
-            ClientDetailsWindow clientDetailsWindow = ClientDetailsWindow.GetInstance();
+            Doctor? user = DoctorContext.CurrentDoctor;
+            DoctorDetailsWindow clientDetailsWindow = DoctorDetailsWindow.GetInstance();
 
             if (clientDetailsWindow != null)
             {
@@ -51,6 +52,5 @@ namespace VeterinaryClinic.Views
                 MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
     }
 }

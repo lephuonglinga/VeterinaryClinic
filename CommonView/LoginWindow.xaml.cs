@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VeterinaryClinic.Service;
 using VeterinaryClinic.Models;
+using VeterinaryClinic.DoctorView;
+
 
 namespace VeterinaryClinic
 {
@@ -49,18 +51,29 @@ namespace VeterinaryClinic
             }            
             MessageBox.Show("Login successful!", "Login", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            if("Client".Equals(user.Role))
+            if ("Client".Equals(user.Role))
             {
-                Client client = new ClientService().GetClientByUser(user);
-                if(client != null)
+                Client? client = new ClientService().GetClientByUser(user);
+                if (client != null)
                 {
+                    ClientContext.CurrentClient = client;
                     ClientDetailsWindow clientDetailsWindow = ClientDetailsWindow.GetInstance();
-                    clientDetailsWindow.MainFrame.Navigate(new ClientProfile(client));
+                    clientDetailsWindow.MainFrame.Navigate(new ClientProfile());
                     clientDetailsWindow.Show();
+                }                           
+            }if ("Doctor".Equals(user.Role))
+            {
+                Doctor? doctor = new DoctorService().GetDoctorByUser(user);
+                if (doctor != null)
+                {
+                    DoctorContext.CurrentDoctor = new DoctorService().GetDoctorByUser(user);
+                    DoctorDetailsWindow doctorDetailsWindow = DoctorDetailsWindow.GetInstance();
+                    doctorDetailsWindow.MainFrame.Navigate(new DoctorProfile());
+                    doctorDetailsWindow.Show();
                 }
                
-            }                       
-            this.Close();
+                this.Close();
+            }
         }
     }
 }

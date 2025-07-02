@@ -7,20 +7,21 @@ using VeterinaryClinic.Models;
 
 namespace VeterinaryClinic.Repository
 {
-    internal class ClientRepository
+    class DoctorRepository
     {
         private readonly VeterinaryClinicContext context;
-        public ClientRepository() {
-            context = new VeterinaryClinicContext();
-        }   
-        public Client? GetClientByUser(User user)
+        public DoctorRepository()
         {
-            var client = context.Clients.FirstOrDefault(c => c.Username == user.Username);
-            if (client == null)
+            context = new VeterinaryClinicContext();
+        }
+        public Doctor GetDoctorByUser(User user)
+        {
+            var doctor = context.Doctors.FirstOrDefault(d => d.Username == user.Username);
+            if (doctor == null)
             {
-                throw new Exception("Client not found for the given user.");
+                throw new Exception("Doctor not found for the given user.");
             }
-            return client;
+            return doctor;
         }
     }
 }

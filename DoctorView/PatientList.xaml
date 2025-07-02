@@ -1,0 +1,40 @@
+﻿<Page x:Class="VeterinaryClinic.DoctorView.PatientList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VeterinaryClinic.DoctorView"
+      xmlns:views="clr-namespace:VeterinaryClinic.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PatientList">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <views:DoctorSidebar Grid.Column="0"/>
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Background="White" CornerRadius="10" Margin="10" Padding="20">
+            <DataGrid Name="PatientDataGrid" AutoGenerateColumns="False" Margin="0,0,0,20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Patient ID" Binding="{Binding PatientId}" Width="*"/>
+                    <DataGridTextColumn Header="Species" Binding="{Binding Breed.Name}" Width="*"/>
+                    <DataGridTextColumn Header="Breed" Binding="{Binding Species.Name}" Width="*"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="View Details"                                        
+                                        Tag="{Binding}" 
+                                        Padding="4,2"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Left"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</Page>

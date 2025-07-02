@@ -21,36 +21,33 @@ namespace VeterinaryClinic
     /// </summary>
     public partial class ClientProfile : Page
     {
-        private readonly Client currentClient;
+        private readonly Client? currentClient;
         private readonly User? linkedUser;
 
-        public ClientProfile(Client client)
+        public ClientProfile()
         {
+            Client? client = ClientContext.CurrentClient;
+            if (client == null)
+            {
+                throw new ArgumentNullException(nameof(client), "Client cannot be null");
+            }
             InitializeComponent();
             currentClient = client;
 
             using var context = new VeterinaryClinicContext();
-
-            // Load User theo ClientId
+            
             linkedUser = context.Users
                 .FirstOrDefault(u => u.Client != null && u.Client.ClientId == client.ClientId);
-
-            // Gán thông tin lên giao diện
+            
             if (linkedUser != null)
             {
                 txtFirstName.Text = linkedUser.FirstName;
                 txtLastName.Text = linkedUser.LastName;
-                txtEmail.Text = linkedUser.Username; // hoặc Email nếu có
+                txtEmail.Text = linkedUser.Username;
                 txtPhone.Text = linkedUser.PhoneNo;
             }
-
-            // Gán thông tin client
+            
             txtAddress.Text = currentClient.Address;            
-        }
-
-        private void SidebarMenu_Loaded(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("Sidebar loaded");
-        }
+        }        
     }
 }
