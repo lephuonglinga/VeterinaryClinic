@@ -67,6 +67,7 @@ namespace VeterinaryClinic.DoctorView
             LastName.Text = $"{selectedUser.LastName}";
             PhoneNo.Text = selectedUser.PhoneNo ?? "No phone number provided.";
             Email.Text = selectedUser.Username;
+            ViewPatients.Tag = selectedUser;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

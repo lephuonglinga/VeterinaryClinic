@@ -14,6 +14,9 @@
     <Compile Update="DoctorView\AddNewCases.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="DoctorView\Cases.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="DoctorView\ClientList.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -30,9 +33,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="DoctorView\DoctorProfile.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="DoctorView\PatientCases.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="DoctorView\PatientList.xaml.cs">

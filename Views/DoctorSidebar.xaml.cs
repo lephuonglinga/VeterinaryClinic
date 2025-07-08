@@ -34,7 +34,7 @@ namespace VeterinaryClinic.Views
 
         private void Patient_Selected(object sender, RoutedEventArgs e)
         {
-            CheckRole("Patient List window is not available.", new PatientList(new Client()));
+            CheckRole("Patient List window is not available.", new PatientList(null));
         }
 
         private void CheckRole(string message, Page page)
@@ -51,6 +51,31 @@ namespace VeterinaryClinic.Views
             {
                 MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Sp_DoctorSidebar.MaxWidth == 70)
+            {
+                Sp_DoctorSidebar.MaxWidth = 1000;
+                Menu.Visibility = Visibility.Visible;
+                Control.Content = "Hide";
+            }
+            else
+            {
+                HideSidebar();
+            }
+        }
+        private void HideSidebar()
+        {
+            Sp_DoctorSidebar.MaxWidth = 70;
+            Menu.Visibility = Visibility.Collapsed;
+            Control.Content = "Show";
+        }
+
+        private void Cases_Selected(object sender, RoutedEventArgs e)
+        {
+            CheckRole("Patient List window is not available.", new Cases(null));
         }
     }
 }

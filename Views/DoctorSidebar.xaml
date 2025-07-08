@@ -6,21 +6,33 @@
             xmlns:local="clr-namespace:VeterinaryClinic.Views"  
             mc:Ignorable="d"   
             d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Grid.Column="0" Background="#0E2954">
+    <StackPanel x:Name="Sp_DoctorSidebar" Grid.Column="0" Background="#0E2954">
         <!-- Logo/Title -->
+        <Button Content="Hide"
+                Padding="10" 
+                FontSize="10"                 
+                Background="#0E2954" 
+                Foreground="White" 
+                BorderThickness="0"
+                Width="40"
+                Name="Control"
+                Click="Button_Click" HorizontalAlignment="Right"/>
+
+        <StackPanel Name="Menu">
+            <!-- Logo/Title -->
         <TextBlock Text="Vet Clinic Doctor"  
                FontSize="24"  
                FontWeight="Bold"  
                Foreground="White"  
                HorizontalAlignment="Center"  
-               Margin="0,20,0,20"/>
+               Margin="0,20,0,20" />
 
         <!-- Menu -->
         <ListBox Background="Transparent" BorderThickness="0" Foreground="White">
             <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="17" FontWeight="Bold"/>
-            <ListBoxItem Content="👤 Clients" Name="Client" Padding="10" FontSize="17" FontWeight="Bold" Selected="Client_Selected"/>
-            <ListBoxItem Content="🐶 Patients" Name="Patient" Padding="10" FontSize="17" FontWeight="Bold" Selected="Patient_Selected"/>
-            <ListBoxItem Content="📜 History" Padding="10" FontSize="17" FontWeight="Bold"/>
+            <ListBoxItem Content="👤 Clients" x:Name="Client" Padding="10" FontSize="17" FontWeight="Bold" Selected="Client_Selected"/>
+            <ListBoxItem Content="🐶 Patients" x:Name="Patient" Padding="10" FontSize="17" FontWeight="Bold" Selected="Patient_Selected"/>
+            <ListBoxItem Content="📜 Cases" Name="Cases" Padding="10" FontSize="17" FontWeight="Bold" Selected="Cases_Selected"/>
             <ListBoxItem Content="📄 Documents" Padding="10" FontSize="17" FontWeight="Bold"/>
         </ListBox>
 
@@ -30,5 +42,7 @@
             <TextBlock Text="Diana Mary" FontSize="12" Foreground="White"/>
             <TextBlock Text="Workspace one" FontSize="10" Foreground="Wheat"/>
         </StackPanel>
+        </StackPanel>
+        
     </StackPanel>
 </UserControl>

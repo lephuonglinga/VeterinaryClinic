@@ -24,5 +24,10 @@ namespace VeterinaryClinic.DoctorView
         {
             InitializeComponent();
         }
+
+        private void ViewDiagnosis_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

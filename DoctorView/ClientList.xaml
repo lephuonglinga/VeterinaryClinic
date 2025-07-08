@@ -11,12 +11,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <views:DoctorSidebar Grid.Column="0"/>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Background="White" CornerRadius="10" Margin="10" Padding="20">
+        <views:DoctorSidebar Grid.Column="0" />
+        <Border Grid.Column="1" Background="White" CornerRadius="10" Margin="10" Padding="20">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <!-- Header -->
@@ -48,11 +47,11 @@
                             </StackPanel>
                         </Grid>
                         <StackPanel Orientation="Horizontal">
-                            <Button Name="ViewPatients" Click="ViewPatients_Click"  Tag="{Binding}" Height="30" Margin="10" Width="80">View Patients</Button>
+                            <Button Name="ViewPatients" Click="ViewPatients_Click" Height="30" Margin="10" Width="80">View Patients</Button>
                             <Button Name="Close" Click="Close_Click" Height="30" Margin="10" Width="80">Close</Button>
                         </StackPanel>
                     </StackPanel>
-                    <DataGrid Name="ClientDataGrid" AutoGenerateColumns="False" Margin="0,0,0,20">
+                    <DataGrid Name="ClientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,20">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Client ID" Binding="{Binding Client.ClientId}" Width="*"/>
                             <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="*"/>

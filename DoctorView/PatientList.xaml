@@ -17,15 +17,17 @@
         </Grid.ColumnDefinitions>
         <views:DoctorSidebar Grid.Column="0"/>
         <Border Grid.Column="1" Grid.ColumnSpan="2" Background="White" CornerRadius="10" Margin="10" Padding="20">
-            <DataGrid Name="PatientDataGrid" AutoGenerateColumns="False" Margin="0,0,0,20">
+            <DataGrid Name="PatientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,20">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Patient ID" Binding="{Binding PatientId}" Width="*"/>
                     <DataGridTextColumn Header="Species" Binding="{Binding Breed.Name}" Width="*"/>
                     <DataGridTextColumn Header="Breed" Binding="{Binding Species.Name}" Width="*"/>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Action" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="View Details"                                        
+                                <Button Content="View Details"    
+                                        Name="ViewCases"
+                                        Click="ViewCases_Click"
                                         Tag="{Binding}" 
                                         Padding="4,2"
                                         Margin="5,0,0,0"
