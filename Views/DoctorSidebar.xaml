@@ -29,11 +29,12 @@
 
         <!-- Menu -->
         <ListBox Background="Transparent" BorderThickness="0" Foreground="White">
-            <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="17" FontWeight="Bold"/>
-            <ListBoxItem Content="👤 Clients" x:Name="Client" Padding="10" FontSize="17" FontWeight="Bold" Selected="Client_Selected"/>
-            <ListBoxItem Content="🐶 Patients" x:Name="Patient" Padding="10" FontSize="17" FontWeight="Bold" Selected="Patient_Selected"/>
-            <ListBoxItem Content="📜 Cases" Name="Cases" Padding="10" FontSize="17" FontWeight="Bold" Selected="Cases_Selected"/>
-            <ListBoxItem Content="📄 Documents" Padding="10" FontSize="17" FontWeight="Bold"/>
+            <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="15" FontWeight="Bold"/>
+            <ListBoxItem Content="👤 Clients" x:Name="Client" Padding="10" FontSize="15" FontWeight="Bold" Selected="Client_Selected"/>
+            <ListBoxItem Content="🐶 Patients" x:Name="Patient" Padding="10" FontSize="15" FontWeight="Bold" Selected="Patient_Selected"/>
+            <ListBoxItem Content="📜 Cases" Name="Cases" Padding="10" FontSize="15" FontWeight="Bold" Selected="Cases_Selected"/>
+                <ListBoxItem Content="📜 Prepscription" Name="Prepscription" Padding="10" FontSize="15" FontWeight="Bold" Selected="Prepscription_Selected"/>
+            <ListBoxItem Content="📄 Pharmacy Inventories" Padding="10" FontSize="15" FontWeight="Bold" Selected="Pharmacy_Selected"/>
         </ListBox>
 
         <!-- Optional: Profile at bottom -->

@@ -38,6 +38,15 @@
     <Compile Update="DoctorView\PatientList.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="DoctorView\Pharmacy.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DoctorView\Prescribedmeds.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DoctorView\Prescriptions.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\DoctorSidebar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

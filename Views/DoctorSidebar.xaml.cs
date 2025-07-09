@@ -77,5 +77,15 @@ namespace VeterinaryClinic.Views
         {
             CheckRole("Patient List window is not available.", new Cases(null));
         }
+
+        private void Pharmacy_Selected(object sender, RoutedEventArgs e)
+        {
+            CheckRole("Patient List window is not available.", new Pharmacy());
+        }
+
+        private void Prepscription_Selected(object sender, RoutedEventArgs e)
+        {
+            CheckRole("Patient List window is not available.", new Prescriptions(null));
+        }
     }
 }
