@@ -19,7 +19,7 @@
         <Border Grid.Column="1" Grid.ColumnSpan="2" Background="White" CornerRadius="10" Margin="10" Padding="20">
             <StackPanel>
                 <StackPanel Name="PatientForm" Visibility="Visible">
-                    <TextBlock Name="Title" Text="Add Patients" FontSize="15" FontWeight="Bold" Margin="50,10,0,0" TextAlignment="Center"/>
+                    <TextBlock Name="Title" Text="Add New Patients" FontSize="15" FontWeight="Bold" Margin="50,10,0,0" TextAlignment="Center"/>
                     <TextBlock Text="Client" Margin="50 5"></TextBlock>
                     <ComboBox Name="CbClient" Margin="50 0"></ComboBox>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
