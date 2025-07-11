@@ -33,6 +33,7 @@ namespace VeterinaryClinic.DoctorView
             }
             InitializeComponent();
             Page_Loaded();
+            ComboBox_Load();
             currentPatient = patient;
         }
 
@@ -62,6 +63,45 @@ namespace VeterinaryClinic.DoctorView
                 DoctorDetailsWindow doctorDetailsWindow = DoctorDetailsWindow.GetInstance();
                 doctorDetailsWindow.MainFrame.Navigate(new Prescribedmeds(prescription));
             }            
+        }
+
+        private void ComboBox_Load()
+        {
+            CbPatient.ItemsSource = context.Patients.ToList();
+            CbPatient.DisplayMemberPath = "PatientId";
+            CbPatient.SelectedValuePath = "PatientId";
+            if (currentPatient != null)
+            {
+                CbPatient.SelectedValue = currentPatient.PatientId;
+                CbPatient.IsEnabled = false;
+            }
+        }
+
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if(CbPatient.SelectedItem == null && PatientForm.Visibility == Visibility.Visible)
+            {
+                MessageBox.Show("Please select a patient to add a prescription.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (CbPatient.SelectedItem == null && PatientForm.Visibility == Visibility.Collapsed)
+            {
+                PatientForm.Visibility = Visibility.Visible;
+                return;
+            }
+            if(CbPatient.SelectedItem != null)
+            {
+                Prescription prescription = new Prescription
+                {
+                    PatientId = CbPatient.SelectedValue.ToString(),
+                    PrescribingDoctorVcnNo = currentDoctor.VcnNo,
+                    Date = DateOnly.FromDateTime(DateTime.Now)
+                };
+                context.Prescriptions.Add(prescription);
+                context.SaveChanges();
+                MessageBox.Show("Add Successfully", "", MessageBoxButton.OK);
+                Page_Loaded();
+            }
         }
     }
 }
