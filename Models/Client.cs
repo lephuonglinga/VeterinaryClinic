@@ -14,4 +14,6 @@ public partial class Client
     public virtual ICollection<Patient> Patients { get; set; } = new List<Patient>();
 
     public virtual User UsernameNavigation { get; set; } = null!;
+
+    public string DisplayName => $"{UsernameNavigation.FirstName} {UsernameNavigation.LastName} ({ClientId})";
 }

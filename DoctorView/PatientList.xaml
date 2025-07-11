@@ -17,26 +17,57 @@
         </Grid.ColumnDefinitions>
         <views:DoctorSidebar Grid.Column="0"/>
         <Border Grid.Column="1" Grid.ColumnSpan="2" Background="White" CornerRadius="10" Margin="10" Padding="20">
-            <DataGrid Name="PatientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,20">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Patient ID" Binding="{Binding PatientId}" Width="*"/>
-                    <DataGridTextColumn Header="Species" Binding="{Binding Breed.Name}" Width="*"/>
-                    <DataGridTextColumn Header="Breed" Binding="{Binding Species.Name}" Width="*"/>
-                    <DataGridTemplateColumn Header="Action" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="View Details"    
+            <StackPanel>
+                <StackPanel Name="PatientForm" Visibility="Visible">
+                    <TextBlock Name="Title" Text="Add Patients" FontSize="15" FontWeight="Bold" Margin="50,10,0,0" TextAlignment="Center"/>
+                    <TextBlock Text="Client" Margin="50 5"></TextBlock>
+                    <ComboBox Name="CbClient" Margin="50 0"></ComboBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Height="50">
+                            <TextBlock Text="Breed" Margin="0 5"></TextBlock>
+                            <ComboBox Name="CbBreed" Width="100" Margin="0 2" Height="20" ></ComboBox>
+                        </StackPanel>
+                        <StackPanel Height="50">
+                            <TextBlock Text="Species" Margin="10 5"></TextBlock>
+                            <ComboBox Name="CbSpecies" Margin="10 2" Width="100" Height="20" ></ComboBox>
+                        </StackPanel>
+                        <StackPanel Height="50">
+                            <TextBlock Text="Sex" Margin="10 5"></TextBlock>
+                            <TextBox Name="Sex" Width="100" Margin="10 2" Height="20"></TextBox>
+                        </StackPanel>
+                        <StackPanel Height="50">
+                            <TextBlock Text="Age Group" Margin="0 5"></TextBlock>
+                            <TextBox Name="AgeGroup" Width="100" Margin="0 2" Height="20"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="BtnSave" Content="Save" Click="BtnSave_Click" Height="30" Width="100" Margin="10"></Button>
+                        <Button Name="BtnClose" Click="BtnClose_Click" Content="Close" Margin="10" Width="100" Height="30"></Button>
+                    </StackPanel>
+                    
+                </StackPanel>
+                <Button x:Name="BtnAdd" Click="BtnAdd_Click" Content="Add New Patient" Height="30" Margin="0 10"></Button>
+                <DataGrid Name="PatientDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,20">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Patient ID" Binding="{Binding PatientId}" Width="*"/>
+                        <DataGridTextColumn Header="Species" Binding="{Binding Breed.Name}" Width="*"/>
+                        <DataGridTextColumn Header="Breed" Binding="{Binding Species.Name}" Width="*"/>
+                        <DataGridTemplateColumn Header="Action" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="View Details"    
                                         Name="ViewCases"
                                         Click="ViewCases_Click"
                                         Tag="{Binding}" 
                                         Padding="4,2"
                                         Margin="5,0,0,0"
                                         HorizontalAlignment="Left"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
         </Border>
     </Grid>
 </Page>

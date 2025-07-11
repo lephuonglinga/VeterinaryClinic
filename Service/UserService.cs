@@ -96,7 +96,7 @@ namespace VeterinaryClinic.Service
                     string clientId;
                     do
                     {
-                        clientId = IdGenerator.GenerateUserId();
+                        clientId = "CID-" + IdGenerator.GenerateUserId();
                     } while (userRepository.IsClientIdTaken(clientId));
 
                     var client = new Client
@@ -113,7 +113,7 @@ namespace VeterinaryClinic.Service
                     string doctorId;
                     do
                     {
-                        doctorId = IdGenerator.GenerateUserId();
+                        doctorId = "DID-" + IdGenerator.GenerateUserId();
                     } while (userRepository.IsClientIdTaken(doctorId));
                     var doctor = new Doctor
                     {
