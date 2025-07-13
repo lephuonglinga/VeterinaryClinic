@@ -21,6 +21,39 @@
                     <DockPanel Margin="0,0,0,20">
                         <TextBlock Text="Prescribed Medications" FontSize="30" FontWeight="Bold" DockPanel.Dock="Left" Foreground="#03A6A1"/>
                     </DockPanel>
+                    <StackPanel Name="PresMedForm" Visibility="Collapsed">
+                        <TextBlock Name="Title" Text="Add Prescribed Medicine" Margin="10" FontWeight="Bold" TextAlignment="Center"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="10">
+                                <TextBlock>Prescription ID</TextBlock>
+                                <TextBox Name="PresId" IsReadOnly="True"></TextBox>
+                                <TextBlock>Quantity</TextBlock>
+                                <TextBox Name="Quantity"></TextBox>
+                                <TextBlock>Route</TextBlock>
+                                <TextBox Name="Route"></TextBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="10">
+                                <TextBlock Name="MedIdTitle">Medication ID</TextBlock>
+                                <ComboBox Name="MedId"></ComboBox>
+                                <TextBlock>Frequency</TextBlock>
+                                <TextBox Name="Freq"></TextBox>
+                                <TextBlock>Date</TextBlock>
+                                <DatePicker Name="Date"></DatePicker>
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Save" Margin="5" Padding="5" Name="Save" Click="Save_Click"></Button>
+                            <Button Content="Cancel" Name="Close" Click="Close_Click" Margin="5" Padding="5"></Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Add New Prescribed Meds" Click="Add_Click" Name="Add" Padding="7" Margin="5"></Button>
+                        <Button Content="Edit Prescribed Meds" Name="Edit" Click="Edit_Click" Padding="7" Margin="5"></Button>
+                    </StackPanel>
                     <DataGrid Name="DgPrescribedMeds" AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Prescription ID" Binding="{Binding PrescriptionId}" Width="*"/>

@@ -24,6 +24,7 @@ namespace VeterinaryClinic.DoctorView
     {
         Patient? currentPatient;
         VeterinaryClinicContext context = new VeterinaryClinicContext();
+        bool isEdit = false;
         public Cases(Patient? patient)
         {
             currentPatient = patient;
@@ -70,6 +71,8 @@ namespace VeterinaryClinic.DoctorView
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            isEdit = false;
+            Title.Text = "Add New Case";
             CaseForm.Visibility = Visibility.Visible;
         }
 
@@ -85,24 +88,79 @@ namespace VeterinaryClinic.DoctorView
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (CbPatient.SelectedItem == null || Diagnosis.SelectedItem == null || string.IsNullOrWhiteSpace(Date.Text) || string.IsNullOrWhiteSpace(Status.Text) || string.IsNullOrWhiteSpace(Note.Text))
+            if (CbPatient.SelectedItem == null || Diagnosis.SelectedItem == null || string.IsNullOrWhiteSpace(Date.Text) || string.IsNullOrWhiteSpace(Status.Text))
             {
                 MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            Case newCase = new Case
+            if (!isEdit)
             {
-                PatientId = CbPatient.SelectedValue.ToString(),
-                Date = DateOnly.Parse(Date.Text),
-                Status = Status.Text,
-                CaseType = CaseType.Text,
-                DiagnosisId = (int)Diagnosis.SelectedValue,
-                Notes = Note.Text,
-                DoctorVcnNo = DoctorContext.CurrentDoctor?.VcnNo
-            };
-            context.Cases.Add(newCase);
-            context.SaveChanges();            
+                Case newCase = new Case
+                {
+                    PatientId = CbPatient.SelectedValue.ToString(),
+                    Date = DateOnly.Parse(Date.Text),
+                    Status = Status.Text,
+                    CaseType = CaseType.Text,
+                    DiagnosisId = (int)Diagnosis.SelectedValue,
+                    Notes = Note.Text,
+                    DoctorVcnNo = DoctorContext.CurrentDoctor?.VcnNo
+                };
+                context.Cases.Add(newCase);
+                context.SaveChanges();
+            }
+            else
+            {
+                if (!int.TryParse(CaseId.Text, out int caseId))
+                {
+                    MessageBox.Show("Invalid Case ID.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                Case? @case = context.Cases.FirstOrDefault(c => c.Id == caseId);
+                if (@case == null)
+                {
+                    MessageBox.Show("Please select a case to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                @case.PatientId = CbPatient.SelectedValue.ToString();
+
+                if (DateOnly.TryParse(Date.Text, out DateOnly caseDate))
+                {
+                    @case.Date = caseDate;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid date format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                @case.Status = "Updated";
+                @case.CaseType = CaseType.Text;
+                @case.DiagnosisId = (int)Diagnosis.SelectedValue;
+                @case.Notes = Note.Text;
+                context.Cases.Update(@case);
+                context.SaveChanges();
+                MessageBox.Show("Case updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             Page_Loaded();
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Case @case = CasesDataGrid.SelectedItem as Case;
+            if (@case == null)
+            {
+                MessageBox.Show("Please select a case to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            BannerId.Visibility = Visibility.Visible;
+            Title.Text = "Edit Case";
+            CaseForm.Visibility = Visibility.Visible;
+            CbPatient.SelectedValue = @case.PatientId;
+            CbPatient.IsEnabled = false;
+            isEdit = true;
+            CaseId.Text = @case.Id.ToString();
         }
     }
 }

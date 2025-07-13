@@ -20,6 +20,10 @@
             <StackPanel>
                 <StackPanel Name="CaseForm" Visibility="Visible">
                     <TextBlock Name="Title" Text="Add New Cases" FontSize="15" FontWeight="Bold" Margin="50,10,0,0" TextAlignment="Center"/>
+                    <StackPanel Name="BannerId" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
+                        <TextBlock Text="Case Id: "></TextBlock>
+                        <TextBlock Name="CaseId"></TextBlock>
+                    </StackPanel>
                     <TextBlock Text="Patient" Margin="10 5"></TextBlock>
                     <ComboBox Name="CbPatient" Margin="10 0"></ComboBox>
                     <Grid Margin="0 10">
@@ -47,7 +51,10 @@
                         <Button Name="BtnClose" Click="BtnClose_Click" Content="Close" Margin="10" Width="100" Height="30"/>
                     </StackPanel>
                 </StackPanel>
-                <Button x:Name="btnAdd" Click="btnAdd_Click" Content="Add New Case" Height="30" Margin="0 10"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="btnAdd" Click="btnAdd_Click" Content="Add New Case" Height="30" Width="100" Margin="0 10"/>
+                    <Button Name="btnEdit" Click="btnEdit_Click" Content="Edit" Margin="10" Height="30" Width="100"/>
+                </StackPanel>
                 <DataGrid Name="CasesDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,20">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
@@ -55,18 +62,6 @@
                         <DataGridTextColumn Header="Case Type" Binding="{Binding CaseType}" Width="*"/>
                         <DataGridTextColumn Header="Diagnosis" Binding="{Binding Diagnosis.Name}" Width="*"/>
                         <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
-                        <DataGridTemplateColumn Header="Action" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="Edit"    
-                                Name="ViewDiagnosis"                                
-                                Tag="{Binding}" 
-                                Padding="4,2"
-                                Margin="5,0,0,0"
-                                HorizontalAlignment="Left"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

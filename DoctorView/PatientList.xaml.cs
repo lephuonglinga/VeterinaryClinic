@@ -27,6 +27,7 @@ namespace VeterinaryClinic.DoctorView
     {
         Client? currentClient;
         VeterinaryClinicContext context = new VeterinaryClinicContext();
+        bool isEdit = false;
         public PatientList(Client? client)
         {
             InitializeComponent();            
@@ -89,12 +90,19 @@ namespace VeterinaryClinic.DoctorView
             ComboBox_Load();
             Sex.Text = "";
             AgeGroup.Text = "";
-        }
-        
+        }        
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
+            isEdit = false;
             PatientForm.Visibility = Visibility.Visible;
+
+            //format the form for editing
+            Header.Orientation = Orientation.Vertical;
+            CbClient.Width = 450;
+            PIDText.Visibility = Visibility.Collapsed;
+            PatientId.Visibility = Visibility.Collapsed;
+            PatientId.Text = "";
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -105,46 +113,91 @@ namespace VeterinaryClinic.DoctorView
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            Patient? patient = new Patient();
-            if (CbBreed.SelectedItem == null || CbSpecies.SelectedItem == null || CbClient.SelectedItem == null)
+            if (isEdit)
             {
-                MessageBox.Show("Please select a breed, species, and client.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Patient? patient = context.Patients.FirstOrDefault(p => p.PatientId == PatientId.Text);
+                if (patient != null)
+                {
+                    patient.BreedId = (int)CbBreed.SelectedValue;
+                    patient.SpeciesId = (int)CbSpecies.SelectedValue;
+                    patient.Sex = Sex.Text;
+                    patient.AgeGroup = "Young";
+                    context.Patients.Update(patient);
+                    context.SaveChanges();
+                    MessageBox.Show("Edit Successfully!", "", MessageBoxButton.OK);
+                    Page_Loaded();
+                }
+                else
+                {
+                    MessageBox.Show("Patient not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                    return;
+            }
+            else
+            {
+                Patient? patient = new Patient();
+                if (CbBreed.SelectedItem == null || CbSpecies.SelectedItem == null || CbClient.SelectedItem == null)
+                {
+                    MessageBox.Show("Please select a breed, species, and client.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                bool isAddNewCase = MessageBox.Show("Do you want to add new Case for patient ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+                if (!isAddNewCase)
+                {
+                    MessageBox.Show("Cannot add new Patient", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                //add patient
+                patient.BreedId = (int)CbBreed.SelectedValue;
+                patient.SpeciesId = (int)CbSpecies.SelectedValue;
+                patient.ClientId = CbClient.SelectedValue.ToString();
+                patient.Sex = Sex.Text;
+                patient.AgeGroup = "Young";
+                string patientId;
+
+                //generrate unique patientId
+                do
+                {
+                    patientId = "PID-" + IdGenerator.GenerateUserId();
+                } while (context.Patients.Any(p => p.PatientId == patientId));
+                patient.PatientId = patientId;
+                context.Patients.Add(patient);
+
+                //add case for patient
+                Case newCase = new Case();
+                newCase.PatientId = patient.PatientId;
+                newCase.Status = "New";
+                newCase.Date = DateOnly.FromDateTime(DateTime.Now);
+                newCase.DoctorVcnNo = DoctorContext.CurrentDoctor.VcnNo;
+                context.Cases.Add(newCase);
+                context.SaveChanges();
+                MessageBox.Show("Patient added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Reset();
+                PatientForm.Visibility = Visibility.Collapsed;
+                Page_Loaded();
+            }
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Patient? selectedPatient = PatientDataGrid.SelectedItem as Patient;
+            if (selectedPatient == null)
+            {
+                MessageBox.Show("Please select a patient to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            bool isAddNewCase = MessageBox.Show("Do you want to add new Case for patient ?" , "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
-            if (!isAddNewCase)
-            {
-                MessageBox.Show("Cannot add new Patient", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            //add patient
-            patient.BreedId = (int)CbBreed.SelectedValue;
-            patient.SpeciesId = (int)CbSpecies.SelectedValue;
-            patient.ClientId = CbClient.SelectedValue.ToString();
-            patient.Sex = Sex.Text;
-            patient.AgeGroup = "Young";
-            string patientId;
+            PatientForm.Visibility = Visibility.Visible;
+            Title.Text = "Edit Patient";
+            isEdit = true;
+            CbClient.SelectedValue = selectedPatient.ClientId;
+            CbClient.IsEnabled = false;
 
-            //generrate unique patientId
-            do
-            {
-                patientId = "PID-" + IdGenerator.GenerateUserId();
-            } while (context.Patients.Any(p => p.PatientId == patientId));
-            patient.PatientId = patientId;
-            context.Patients.Add(patient);
-
-            //add case for patient
-            Case newCase = new Case();
-            newCase.PatientId = patient.PatientId;
-            newCase.Status = "New";
-            newCase.Date = DateOnly.FromDateTime(DateTime.Now);
-            newCase.DoctorVcnNo = DoctorContext.CurrentDoctor.VcnNo;
-            context.Cases.Add(newCase);
-            context.SaveChanges();
-            MessageBox.Show("Patient added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            Reset();
-            PatientForm.Visibility = Visibility.Collapsed;
-            Page_Loaded();
+            //format the form for editing
+            Header.Orientation = Orientation.Horizontal;
+            CbClient.Width = 200;
+            PIDText.Visibility = Visibility.Visible;
+            PatientId.Visibility = Visibility.Visible;
+            PatientId.Text = selectedPatient.PatientId;
         }
     }
 }
