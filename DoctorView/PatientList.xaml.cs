@@ -97,10 +97,7 @@ namespace VeterinaryClinic.DoctorView
             isEdit = false;
             PatientForm.Visibility = Visibility.Visible;
 
-            //format the form for editing
-            Header.Orientation = Orientation.Vertical;
-            CbClient.Width = 450;
-            PIDText.Visibility = Visibility.Collapsed;
+            //format the form for editing                        
             PatientId.Visibility = Visibility.Collapsed;
             PatientId.Text = "";
         }
@@ -192,12 +189,9 @@ namespace VeterinaryClinic.DoctorView
             CbClient.SelectedValue = selectedPatient.ClientId;
             CbClient.IsEnabled = false;
 
-            //format the form for editing
-            Header.Orientation = Orientation.Horizontal;
-            CbClient.Width = 200;
-            PIDText.Visibility = Visibility.Visible;
+            //format the form for editing                                    
             PatientId.Visibility = Visibility.Visible;
-            PatientId.Text = selectedPatient.PatientId;
+            PatientId.Text = "Patient ID: " + selectedPatient.PatientId;
         }
     }
 }
