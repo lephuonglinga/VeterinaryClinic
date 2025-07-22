@@ -6,12 +6,12 @@
             xmlns:local="clr-namespace:VeterinaryClinic.Views"  
             mc:Ignorable="d"   
             d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel x:Name="Sp_DoctorSidebar" Grid.Column="0" Background="#0E2954">
+    <StackPanel x:Name="Sp_DoctorSidebar" Grid.Column="0" Background="#1ABC9C">
         <!-- Logo/Title -->
         <Button Content="Hide"
                 Padding="10" 
                 FontSize="10"                 
-                Background="#0E2954" 
+                Background="#1ABC9C" 
                 Foreground="White" 
                 BorderThickness="0"
                 Width="40"

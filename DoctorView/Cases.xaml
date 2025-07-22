@@ -7,64 +7,529 @@
       xmlns:views="clr-namespace:VeterinaryClinic.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Cases">
+      Title="Cases"
+      Background="#F8F9FA">
+
+    <Page.Resources>
+        <!-- Modern Card Style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderBrush" Value="#E9ECEF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" Direction="270" ShadowDepth="2" BlurRadius="8" Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern Button Style -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#007BFF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#0056B3"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004085"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Secondary Button Style -->
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#6C757D"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#545B62"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#383D41"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Success Button Style -->
+        <Style x:Key="SuccessButton" TargetType="Button">
+            <Setter Property="Background" Value="#28A745"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#218838"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1E7E34"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern Input Style -->
+        <Style x:Key="ModernInput" TargetType="Control">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CED4DA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="38"/>
+        </Style>
+
+        <!-- Modern TextBox Style -->
+        <Style x:Key="ModernTextBox" TargetType="TextBox" BasedOn="{StaticResource ModernInput}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Padding="{TemplateBinding Padding}" 
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007BFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern ComboBox Style -->
+        <Style x:Key="ModernComboBox" TargetType="ComboBox" BasedOn="{StaticResource ModernInput}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="6">
+                            <Grid>
+                                <ToggleButton x:Name="ToggleButton" 
+                                              Background="Transparent" 
+                                              BorderThickness="0" 
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                              ClickMode="Press">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Path x:Name="Arrow" 
+                                              Grid.Column="1" 
+                                              Fill="#6C757D" 
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center" 
+                                              Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                    </Grid>
+                                </ToggleButton>
+                                <ContentPresenter x:Name="ContentSite" 
+                                                  IsHitTestVisible="False" 
+                                                  Content="{TemplateBinding SelectionBoxItem}" 
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
+                                                  Margin="{TemplateBinding Padding}" 
+                                                  VerticalAlignment="Center" 
+                                                  HorizontalAlignment="Left"/>
+                                <Popup x:Name="Popup" 
+                                       Placement="Bottom" 
+                                       IsOpen="{TemplateBinding IsDropDownOpen}" 
+                                       AllowsTransparency="True" 
+                                       Focusable="False" 
+                                       PopupAnimation="Slide">
+                                    <Grid x:Name="DropDown" 
+                                          SnapsToDevicePixels="True" 
+                                          MinWidth="{TemplateBinding ActualWidth}" 
+                                          MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                        <Border x:Name="DropDownBorder" 
+                                                Background="White" 
+                                                BorderThickness="1" 
+                                                BorderBrush="#CED4DA" 
+                                                CornerRadius="6"/>
+                                        <ScrollViewer Margin="4,6,4,6" 
+                                                      SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" 
+                                                        KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007BFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern DatePicker Style -->
+        <Style x:Key="ModernDatePicker" TargetType="DatePicker" BasedOn="{StaticResource ModernInput}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="6">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="30"/>
+                                </Grid.ColumnDefinitions>
+                                <DatePickerTextBox x:Name="PART_TextBox" 
+                                                   Grid.Column="0" 
+                                                   Background="Transparent" 
+                                                   BorderThickness="0" 
+                                                   Padding="{TemplateBinding Padding}" 
+                                                   VerticalAlignment="Center"/>
+                                <Button x:Name="PART_Button" 
+                                        Grid.Column="1" 
+                                        Background="Transparent" 
+                                        BorderThickness="0" 
+                                        Content="📅" 
+                                        FontSize="12" 
+                                        Cursor="Hand"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007BFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern DataGrid Style -->
+        <Style x:Key="ModernDataGrid" TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#DEE2E6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F8F9FA"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowHeight" Value="45"/>
+        </Style>
+
+        <!-- Modern Label Style -->
+        <Style x:Key="ModernLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#495057"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <!-- Title Style -->
+        <Style x:Key="TitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#212529"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+
+        <!-- Header Button Style -->
+        <Style x:Key="HeaderButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#CED4DA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F8F9FA"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#E9ECEF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
         <views:DoctorSidebar Grid.Column="0"/>
-        <ScrollViewer Grid.Column="1" Grid.ColumnSpan="2" Background="White" Margin="10" Padding="20">
-            <StackPanel>
-                <StackPanel Name="CaseForm" Visibility="Visible">
-                    <TextBlock Name="Title" Text="Add New Cases" FontSize="15" FontWeight="Bold" Margin="50,10,0,0" TextAlignment="Center"/>
-                    <StackPanel Name="BannerId" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
-                        <TextBlock Text="Case Id: "></TextBlock>
-                        <TextBlock Name="CaseId"></TextBlock>
-                    </StackPanel>
-                    <TextBlock Text="Patient" Margin="10 5"></TextBlock>
-                    <ComboBox Name="CbPatient" Margin="10 0"></ComboBox>
-                    <Grid Margin="0 10">
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1" Background="#F8F9FA">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header Section -->
+            <Border Grid.Row="0" Background="White" BorderBrush="#DEE2E6" BorderThickness="0,0,0,1" Padding="30,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Page Title -->
+                    <TextBlock Grid.Row="0" Text="Case Management" Style="{StaticResource TitleStyle}"/>
+
+                    <!-- Header Controls -->
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Margin="10 0">
-                            <TextBlock Text="Date"/>
-                            <DatePicker Name="Date" MinHeight="25"/>
-                            <TextBlock Text="Case Type" Margin="0 10"></TextBlock>
-                            <TextBox Name="CaseType" MinHeight="25"/>
+
+                        <!-- Search Box -->
+                        <TextBox Grid.Column="0" 
+                                 x:Name="SearchBox" 
+                                 Style="{StaticResource ModernTextBox}" 
+                                 Text="Search cases..." 
+                                 Foreground="#6C757D" 
+                                 Margin="0"/>
+
+                        <!-- Filter and Sort Controls -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
+                            <Button x:Name="FilterButton" 
+                                    Style="{StaticResource HeaderButton}" 
+                                    Content="🔍 Filter" 
+                                    Margin="0,0,10,0"/>
+                            <Button x:Name="SortButton" 
+                                    Style="{StaticResource HeaderButton}" 
+                                    Content="📊 Sort" 
+                                    Margin="0,0,10,0"/>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Margin="10 0">
-                            <TextBlock Text="Status"/>
-                            <TextBox Name="Status" MinHeight="25"/>
-                            <TextBlock Text="Diagnosis" Margin="0 10"></TextBlock>
-                            <ComboBox Name="Diagnosis" MinHeight="25"></ComboBox>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                            <Button x:Name="btnAdd" 
+                                    Click="btnAdd_Click" 
+                                    Style="{StaticResource PrimaryButton}" 
+                                    Content="➕ Add New Case" 
+                                    Margin="0,0,10,0"/>
+                            <Button Name="btnEdit" 
+                                    Click="btnEdit_Click" 
+                                    Style="{StaticResource SecondaryButton}" 
+                                    Content="✏️ Edit"/>
                         </StackPanel>
                     </Grid>
-                    <TextBlock Text="Note" Margin="10 0"></TextBlock>
-                    <TextBox Name="Note" MinHeight="25" Margin="10 0 10 10"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Name="BtnSave" Content="Save" Height="30" Width="100" Margin="10" Click="BtnSave_Click"/>
-                        <Button Name="BtnClose" Click="BtnClose_Click" Content="Close" Margin="10" Width="100" Height="30"/>
-                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Content Area -->
+            <ScrollViewer Grid.Row="1" Padding="30" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Case Form -->
+                    <Border Name="CaseForm" 
+                            Style="{StaticResource CardStyle}" 
+                            Visibility="Visible" 
+                            Margin="0,0,0,30" 
+                            Padding="30">
+                        <StackPanel>
+                            <!-- Form Title -->
+                            <TextBlock Name="Title" 
+                                       Text="Add New Case" 
+                                       FontSize="20" 
+                                       FontWeight="Bold" 
+                                       Foreground="#212529" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0,0,0,20"/>
+
+                            <!-- Case ID Banner -->
+                            <StackPanel Name="BannerId" 
+                                        Orientation="Horizontal" 
+                                        HorizontalAlignment="Center" 
+                                        Visibility="Collapsed" 
+                                        Margin="0,0,0,20">
+                                <TextBlock Text="Case ID: " 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#6C757D"/>
+                                <TextBlock Name="CaseId" 
+                                           FontWeight="Bold" 
+                                           Foreground="#007BFF"/>
+                            </StackPanel>
+
+                            <!-- Patient Selection -->
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="Patient" Style="{StaticResource ModernLabel}"/>
+                                    <ComboBox Name="CbPatient" Style="{StaticResource ModernComboBox}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Form Fields -->
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Left Column -->
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Date" Style="{StaticResource ModernLabel}"/>
+                                    <DatePicker Name="Date" Style="{StaticResource ModernDatePicker}" Margin="0,0,0,20"/>
+
+                                    <TextBlock Text="Case Type" Style="{StaticResource ModernLabel}"/>
+                                    <TextBox Name="CaseType" Style="{StaticResource ModernTextBox}"/>
+                                </StackPanel>
+
+                                <!-- Right Column -->
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Status" Style="{StaticResource ModernLabel}"/>
+                                    <TextBox Name="Status" Style="{StaticResource ModernTextBox}" Margin="0,0,0,20"/>
+
+                                    <TextBlock Text="Diagnosis" Style="{StaticResource ModernLabel}"/>
+                                    <ComboBox Name="Diagnosis" Style="{StaticResource ModernComboBox}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Notes Section -->
+                            <StackPanel Margin="0,0,0,30">
+                                <TextBlock Text="Notes" Style="{StaticResource ModernLabel}"/>
+                                <TextBox Name="Note" 
+                                         Style="{StaticResource ModernTextBox}" 
+                                         AcceptsReturn="True" 
+                                         TextWrapping="Wrap" 
+                                         MinHeight="100"/>
+                            </StackPanel>
+
+                            <!-- Form Action Buttons -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Name="BtnSave" 
+                                        Content="💾 Save Case" 
+                                        Style="{StaticResource SuccessButton}" 
+                                        Click="BtnSave_Click" 
+                                        Margin="0,0,15,0"/>
+                                <Button Name="BtnClose" 
+                                        Click="BtnClose_Click" 
+                                        Content="❌ Close" 
+                                        Style="{StaticResource SecondaryButton}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Cases Data Grid -->
+                    <Border Style="{StaticResource CardStyle}" Padding="0">
+                        <DataGrid Name="CasesDataGrid" 
+                                  Style="{StaticResource ModernDataGrid}" 
+                                  AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" 
+                                  BorderThickness="0">
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#F8F9FA"/>
+                                    <Setter Property="Foreground" Value="#495057"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Padding" Value="15,12"/>
+                                    <Setter Property="BorderBrush" Value="#DEE2E6"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="15,12"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Foreground" Value="#212529"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#E3F2FD"/>
+                                            <Setter Property="Foreground" Value="#0D47A1"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="📅 Date" Binding="{Binding Date}" Width="*"/>
+                                <DataGridTextColumn Header="📊 Status" Binding="{Binding Status}" Width="*"/>
+                                <DataGridTextColumn Header="🏥 Case Type" Binding="{Binding CaseType}" Width="*"/>
+                                <DataGridTextColumn Header="🔬 Diagnosis" Binding="{Binding Diagnosis.Name}" Width="*"/>
+                                <DataGridTextColumn Header="📝 Notes" Binding="{Binding Notes}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="btnAdd" Click="btnAdd_Click" Content="Add New Case" Height="30" Width="100" Margin="0 10"/>
-                    <Button Name="btnEdit" Click="btnEdit_Click" Content="Edit" Margin="10" Height="30" Width="100"/>
-                </StackPanel>
-                <DataGrid Name="CasesDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,20">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
-                        <DataGridTextColumn Header="Case Type" Binding="{Binding CaseType}" Width="*"/>
-                        <DataGridTextColumn Header="Diagnosis" Binding="{Binding Diagnosis.Name}" Width="*"/>
-                        <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>

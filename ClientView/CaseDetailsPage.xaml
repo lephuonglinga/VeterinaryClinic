@@ -3,38 +3,390 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:local="clr-namespace:VeterinaryClinic" xmlns:views="clr-namespace:VeterinaryClinic.Views"      
+        xmlns:local="clr-namespace:VeterinaryClinic" 
+        xmlns:views="clr-namespace:VeterinaryClinic.Views"      
         mc:Ignorable="d" 
         d:DesignHeight="450" d:DesignWidth="800" 
-      Title="CaseDetailsPage">
+        Title="CaseDetailsPage">
 
-    <Grid>
+    <Page.Resources>
+        <!-- Modern Color Palette -->
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#2563EB"/>
+        <SolidColorBrush x:Key="LightBlue" Color="#DBEAFE"/>
+        <SolidColorBrush x:Key="DarkGray" Color="#374151"/>
+        <SolidColorBrush x:Key="LightGray" Color="#F9FAFB"/>
+        <SolidColorBrush x:Key="BorderGray" Color="#E5E7EB"/>
+        <SolidColorBrush x:Key="TextGray" Color="#6B7280"/>
+        <SolidColorBrush x:Key="HoverBlue" Color="#1D4ED8"/>
+
+        <!-- Modern Button Style -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource HoverBlue}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern TextBox Style for Search -->
+        <Style x:Key="SearchTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderGray}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBlue}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern ComboBox Style -->
+        <Style x:Key="ModernComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderGray}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="6">
+                                <Grid>
+                                    <ContentPresenter x:Name="ContentSite" 
+                                                      IsHitTestVisible="False" 
+                                                      Content="{TemplateBinding SelectionBoxItem}" 
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
+                                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
+                                                      Margin="{TemplateBinding Padding}" 
+                                                      VerticalAlignment="Center" 
+                                                      HorizontalAlignment="Left"/>
+                                    <ToggleButton x:Name="ToggleButton" 
+                                                  Background="Transparent" 
+                                                  BorderThickness="0" 
+                                                  Focusable="False" 
+                                                  IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                  ClickMode="Press" 
+                                                  HorizontalAlignment="Right" 
+                                                  Width="20" 
+                                                  Margin="0,0,8,0">
+                                        <Path Data="M7 10l5 5 5-5z" Fill="{StaticResource TextGray}" Stretch="Uniform" Width="10" Height="6"/>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+                            <Popup x:Name="Popup" 
+                                   Placement="Bottom" 
+                                   IsOpen="{TemplateBinding IsDropDownOpen}" 
+                                   AllowsTransparency="True" 
+                                   Focusable="False" 
+                                   PopupAnimation="Slide">
+                                <Border Background="White" 
+                                        BorderBrush="{StaticResource BorderGray}" 
+                                        BorderThickness="1" 
+                                        CornerRadius="6" 
+                                        MaxHeight="200">
+                                    <ScrollViewer>
+                                        <StackPanel IsItemsHost="True"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern DataGrid Style -->
+        <Style x:Key="ModernDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderGray}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderGray}"/>
+            <Setter Property="AlternatingRowBackground" Value="{StaticResource LightGray}"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+        </Style>
+
+        <!-- Modern DataGrid Header Style -->
+        <Style x:Key="ModernDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource LightGray}"/>
+            <Setter Property="Foreground" Value="{StaticResource DarkGray}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderGray}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Modern DataGrid Cell Style -->
+        <Style x:Key="ModernDataGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource LightGray}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <!-- Sidebar -->
-            <ColumnDefinition Width="300"/>
-            <!-- Client Info -->
             <ColumnDefinition Width="*"/>
-            <!-- Invoices -->
+            <!-- Main Content -->
         </Grid.ColumnDefinitions>
 
+        <!-- Sidebar (Keep as is) -->
         <views:SidebarMenu Grid.Column="0"/>
 
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Background="White" CornerRadius="10" Margin="10" Padding="20">
-            <StackPanel>
-                <TextBlock Text="Case Details" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-                <DataGrid x:Name="dgCases" AutoGenerateColumns="False" Height="300" IsReadOnly="True">
+        <!-- Main Content Area -->
+        <Grid Grid.Column="1" Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Header -->
+                <RowDefinition Height="Auto"/>
+                <!-- Filter Bar -->
+                <RowDefinition Height="*"/>
+                <!-- Content -->
+                <RowDefinition Height="Auto"/>
+                <!-- Actions -->
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <Border Grid.Row="0" Background="White" CornerRadius="12" Padding="24" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Case Details" 
+                               FontSize="28" 
+                               FontWeight="Bold" 
+                               Foreground="{StaticResource DarkGray}" 
+                               Margin="0,0,0,8"/>
+                    <TextBlock Text="Manage and view detailed information about veterinary cases" 
+                               FontSize="16" 
+                               Foreground="{StaticResource TextGray}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Search and Filter Bar -->
+            <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="20" Margin="0,0,0,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Search Box -->
+                    <Grid Grid.Column="0" Margin="0,0,12,0">
+                        <TextBox x:Name="SearchTextBox" 
+                                 Style="{StaticResource SearchTextBoxStyle}" 
+                                 FontSize="14"/>
+                        <TextBlock Text="Search cases..." 
+                                   Foreground="{StaticResource TextGray}" 
+                                   IsHitTestVisible="False" 
+                                   Margin="12,8" 
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=SearchTextBox, Path=Text}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=SearchTextBox, Path=Text}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Status Filter -->
+                    <TextBlock Grid.Column="1" 
+                               Text="Status:" 
+                               VerticalAlignment="Center" 
+                               Margin="0,0,8,0" 
+                               FontWeight="Medium" 
+                               Foreground="{StaticResource DarkGray}"/>
+                    <ComboBox x:Name="StatusFilterComboBox" 
+                              Grid.Column="2" 
+                              Style="{StaticResource ModernComboBoxStyle}" 
+                              MinWidth="90" 
+                              Margin="0,0,12,0">
+                        <ComboBoxItem Content="All Status"/>
+                        <ComboBoxItem Content="Active"/>
+                        <ComboBoxItem Content="Completed"/>
+                        <ComboBoxItem Content="Pending"/>
+                    </ComboBox>
+
+                    <!-- Type Filter -->
+                    <TextBlock Grid.Column="3" 
+                               Text="Type:" 
+                               VerticalAlignment="Center" 
+                               Margin="0,0,8,0" 
+                               FontWeight="Medium" 
+                               Foreground="{StaticResource DarkGray}"/>
+                    <ComboBox x:Name="TypeFilterComboBox" 
+                              Grid.Column="4" 
+                              Style="{StaticResource ModernComboBoxStyle}" 
+                              MinWidth="90" 
+                              Margin="0,0,12,0">
+                        <ComboBoxItem Content="All Types"/>
+                        <ComboBoxItem Content="Surgery"/>
+                        <ComboBoxItem Content="Consultation"/>
+                        <ComboBoxItem Content="Emergency"/>
+                        <ComboBoxItem Content="Vaccination"/>
+                    </ComboBox>
+
+                    <!-- Sort Button -->                   
+                </Grid>
+            </Border>
+
+            <!-- Data Grid Container -->
+            <Border Grid.Row="2" Background="White" CornerRadius="12" Padding="0" Margin="0,0,0,16">
+                <DataGrid x:Name="dgCases" 
+                          Style="{StaticResource ModernDataGridStyle}"
+                          ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeaderStyle}"
+                          CellStyle="{StaticResource ModernDataGridCellStyle}"
+                          IsReadOnly="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="*" Header="Case ID" Binding="{Binding Id}" />
-                        <DataGridTextColumn Width="*" Header="Date" Binding="{Binding Date}" />
-                        <DataGridTextColumn Width="*" Header="Type" Binding="{Binding CaseType}" />
-                        <DataGridTextColumn Width="*" Header="Status" Binding="{Binding Status}" />
-                        <DataGridTextColumn Width="*" Header="Doctor" Binding="{Binding DoctorVcnNo}" />
+                        <DataGridTextColumn Width="100" Header="Case ID" Binding="{Binding Id}" />
+                        <DataGridTextColumn Width="120" Header="Date" Binding="{Binding Date}" />
+                        <DataGridTextColumn Width="140" Header="Type" Binding="{Binding CaseType}" />
+                        <DataGridTextColumn Width="100" Header="Status" Binding="{Binding Status}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource ModernDataGridCellStyle}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="DataGridCell">
+                                                <Border Background="{TemplateBinding Background}" Padding="16,12">
+                                                    <Border CornerRadius="12" Padding="8,4" HorizontalAlignment="Left">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="{StaticResource LightBlue}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                                        <Setter Property="Background" Value="#D1FAE5"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Status}" Value="Active">
+                                                                        <Setter Property="Background" Value="#FEF3C7"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                                        <Setter Property="Background" Value="#FEE2E2"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding Status}" 
+                                                                   FontWeight="Medium" 
+                                                                   FontSize="12" 
+                                                                   Foreground="{StaticResource DarkGray}"/>
+                                                    </Border>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="120" Header="Doctor" Binding="{Binding DoctorVcnNo}" />
                         <DataGridTextColumn Width="*" Header="Notes" Binding="{Binding Notes}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Content="Back" Click="Back_Click" Margin="0,10,0,0" Width="80"/>
-            </StackPanel>
-        </Border>
+            </Border>
+
+            <!-- Action Buttons -->
+            <Border Grid.Row="3" Background="White" CornerRadius="12" Padding="20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="BackButton"
+                            Content="Back" 
+                            Click="Back_Click" 
+                            Style="{StaticResource ModernButtonStyle}"
+                            Background="#6B7280"
+                            Margin="0,0,12,0">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="6" 
+                                        Padding="20,10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="M15 19l-7-7 7-7" 
+                                              Fill="White" 
+                                              Stretch="Uniform" 
+                                              Width="16" 
+                                              Height="16" 
+                                              Margin="0,0,8,0"/>
+                                        <TextBlock Text="{TemplateBinding Content}" 
+                                                   Foreground="White" 
+                                                   FontWeight="Medium" 
+                                                   FontSize="14"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#4B5563"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>
