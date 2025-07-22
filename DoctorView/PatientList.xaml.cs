@@ -193,5 +193,23 @@ namespace VeterinaryClinic.DoctorView
             PatientId.Visibility = Visibility.Visible;
             PatientId.Text = "Patient ID: " + selectedPatient.PatientId;
         }
+
+        private void ViewPres_Click(object sender, RoutedEventArgs e)
+        {
+            Button? button = sender as Button;
+            Patient? selectedPatient = button?.Tag as Patient;
+            if (selectedPatient == null)
+            {
+                MessageBox.Show("No patient selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (selectedPatient.Cases.Count == 0)
+            {
+                MessageBox.Show("This patient has no cases.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            DoctorDetailsWindow doctorDetailsWindow = DoctorDetailsWindow.GetInstance();
+            doctorDetailsWindow.MainFrame.Navigate(new Prescriptions(selectedPatient));
+        }
     }
 }

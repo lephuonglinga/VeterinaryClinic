@@ -31,10 +31,10 @@ namespace VeterinaryClinic.DoctorView
                 MessageBox.Show("No doctor is currently logged in.");
                 return;
             }
+            currentPatient = patient;
             InitializeComponent();
             Page_Loaded();
-            ComboBox_Load();
-            currentPatient = patient;
+            ComboBox_Load();            
         }
 
         private void Page_Loaded()
