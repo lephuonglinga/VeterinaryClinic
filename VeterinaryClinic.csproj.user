@@ -2,6 +2,18 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="AdminView\AdminWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminView\DoctorList.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminView\PharmacyInventory.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminView\Prescription.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ClientView\CaseDetailsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -45,6 +57,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="DoctorView\Prescriptions.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\AdminSidebar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\DoctorSidebar.xaml.cs">

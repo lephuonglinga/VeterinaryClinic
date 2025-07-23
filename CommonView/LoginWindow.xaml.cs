@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using VeterinaryClinic.Service;
 using VeterinaryClinic.Models;
 using VeterinaryClinic.DoctorView;
+using VeterinaryClinic.AdminView;
 
 
 namespace VeterinaryClinic
@@ -48,7 +49,7 @@ namespace VeterinaryClinic
             {
                 MessageBox.Show("Invalid username or password.", "Login Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
-            }            
+            }
             MessageBox.Show("Login successful!", "Login", MessageBoxButton.OK, MessageBoxImage.Information);
 
             if ("Client".Equals(user.Role))
@@ -60,8 +61,9 @@ namespace VeterinaryClinic
                     ClientDetailsWindow clientDetailsWindow = ClientDetailsWindow.GetInstance();
                     clientDetailsWindow.MainFrame.Navigate(new ClientProfile());
                     clientDetailsWindow.Show();
-                }                           
-            }if ("Doctor".Equals(user.Role))
+                }
+            }
+            if ("Doctor".Equals(user.Role))
             {
                 Doctor? doctor = new DoctorService().GetDoctorByUser(user);
                 if (doctor != null)
@@ -71,7 +73,15 @@ namespace VeterinaryClinic
                     doctorDetailsWindow.MainFrame.Navigate(new DoctorProfile());
                     doctorDetailsWindow.Show();
                 }
-               
+
+                this.Close();
+            }
+            if ("Admin".Equals(user.Role))
+            {
+                AdminContext.CurrentAdmin = user;
+                AdminWindow adminDetailsWindow = AdminWindow.GetInstance();
+                adminDetailsWindow.MainFrame.Navigate(new DoctorList());
+                adminDetailsWindow.Show();
                 this.Close();
             }
         }

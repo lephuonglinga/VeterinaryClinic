@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="VeterinaryClinic.Views.AdminSidebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VeterinaryClinic.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel x:Name="Sp_DoctorSidebar" Grid.Column="0" Background="#799EFF">
+        <!-- Logo/Title -->
+        <Button Content="Hide"
+            Padding="10" 
+            FontSize="10"                 
+            Background="#799EFF" 
+            Foreground="White" 
+            BorderThickness="0"
+            Width="40"
+            Name="Control"
+             HorizontalAlignment="Right"/>
+
+        <StackPanel Name="Menu">
+            <!-- Logo/Title -->
+            <TextBlock Text="Vet Clinic Admin"  
+           FontSize="24"  
+           FontWeight="Bold"  
+           Foreground="White"  
+           HorizontalAlignment="Center"  
+           Margin="0,20,0,20" />
+
+            <!-- Menu -->
+            <ListBox Background="Transparent" BorderThickness="0" Foreground="White">
+                <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
+                <ListBoxItem Content="📜 Doctors" Name="DoctorListItem" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
+                <ListBoxItem Content="📜 Prepscription" Name="Prepscription" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
+                <ListBoxItem Content="📄 Pharmacy" Name="PharmacyInventoryItem" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
+            </ListBox>
+            
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>
