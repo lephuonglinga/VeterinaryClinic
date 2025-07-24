@@ -57,6 +57,9 @@ namespace VeterinaryClinic.DoctorView
             CbSpecies.DisplayMemberPath = "Name";
             CbSpecies.SelectedValuePath = "Id";
 
+            cbSex.ItemsSource = new List<string> {"Male", "Female"};
+            cbAgeGroup.ItemsSource = new List<string> { "Avian", "Large Animal", "Small Animal" };
+
             CbClient.ItemsSource = context.Clients.Include(c => c.UsernameNavigation).ToList();
             if (currentClient != null)
             {
@@ -87,9 +90,7 @@ namespace VeterinaryClinic.DoctorView
         
         private void Reset()
         {
-            ComboBox_Load();
-            Sex.Text = "";
-            AgeGroup.Text = "";
+            ComboBox_Load();                        
         }        
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -117,8 +118,8 @@ namespace VeterinaryClinic.DoctorView
                 {
                     patient.BreedId = (int)CbBreed.SelectedValue;
                     patient.SpeciesId = (int)CbSpecies.SelectedValue;
-                    patient.Sex = Sex.Text;
-                    patient.AgeGroup = "Young";
+                    patient.Sex = cbSex.SelectedItem as string;
+                    patient.AgeGroup = cbAgeGroup.SelectedItem as string;
                     context.Patients.Update(patient);
                     context.SaveChanges();
                     MessageBox.Show("Edit Successfully!", "", MessageBoxButton.OK);
@@ -148,7 +149,7 @@ namespace VeterinaryClinic.DoctorView
                 patient.BreedId = (int)CbBreed.SelectedValue;
                 patient.SpeciesId = (int)CbSpecies.SelectedValue;
                 patient.ClientId = CbClient.SelectedValue.ToString();
-                patient.Sex = Sex.Text;
+                patient.Sex = cbSex.SelectedItem as string;
                 patient.AgeGroup = "Young";
                 string patientId;
 
@@ -186,12 +187,16 @@ namespace VeterinaryClinic.DoctorView
             PatientForm.Visibility = Visibility.Visible;
             Title.Text = "Edit Patient";
             isEdit = true;
-            CbClient.SelectedValue = selectedPatient.ClientId;
+            CbClient.SelectedValue = selectedPatient.ClientId;            
             CbClient.IsEnabled = false;
-
+            CbBreed.SelectedValue = selectedPatient.BreedId;
+            CbSpecies.SelectedValue = selectedPatient?.Species?.Id;
+            cbAgeGroup.SelectedItem = selectedPatient?.AgeGroup;
+            cbSex.SelectedItem = selectedPatient?.Sex;
+            cbAgeGroup.SelectedItem = selectedPatient?.AgeGroup;
             //format the form for editing                                    
             PatientId.Visibility = Visibility.Visible;
-            PatientId.Text = "Patient ID: " + selectedPatient.PatientId;
+            PatientId.Text = "Patient ID: " + selectedPatient?.PatientId;
         }
 
         private void ViewPres_Click(object sender, RoutedEventArgs e)

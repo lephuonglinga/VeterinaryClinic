@@ -232,21 +232,13 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="30"/>
                                 </Grid.ColumnDefinitions>
-                                <DatePickerTextBox x:Name="PART_TextBox" 
+                                <DatePicker
                                                    Grid.Column="0" 
                                                    Background="Transparent" 
                                                    BorderThickness="0" 
                                                    Padding="{TemplateBinding Padding}" 
                                                    VerticalAlignment="Center"/>
-                                <Button x:Name="PART_Button" 
-                                        Grid.Column="1" 
-                                        Background="Transparent" 
-                                        BorderThickness="0" 
-                                        Content="📅" 
-                                        FontSize="12" 
-                                        Cursor="Hand"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -361,18 +353,6 @@
                                  Text="Search cases..." 
                                  Foreground="#6C757D" 
                                  Margin="0"/>
-
-                        <!-- Filter and Sort Controls -->
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
-                            <Button x:Name="FilterButton" 
-                                    Style="{StaticResource HeaderButton}" 
-                                    Content="🔍 Filter" 
-                                    Margin="0,0,10,0"/>
-                            <Button x:Name="SortButton" 
-                                    Style="{StaticResource HeaderButton}" 
-                                    Content="📊 Sort" 
-                                    Margin="0,0,10,0"/>
-                        </StackPanel>
 
                         <!-- Action Buttons -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal">

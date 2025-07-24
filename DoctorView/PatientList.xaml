@@ -439,13 +439,13 @@
                                 <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,15,0">
                                     <TextBlock Text="Sex" FontSize="14" FontWeight="SemiBold" 
                                                Foreground="#495057" Margin="0,0,0,8"/>
-                                    <TextBox Name="Sex" MinWidth="200" Style="{StaticResource ModernTextBox}" Height="40"/>
+                                    <ComboBox Name="cbSex" MinWidth="200" Style="{StaticResource ModernComboBox}" Height="40"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="2" Grid.Column="1" Margin="15,0,0,0">
                                     <TextBlock Text="Age Group" FontSize="14" FontWeight="SemiBold" 
                                                Foreground="#495057" Margin="0,0,0,8"/>
-                                    <TextBox Name="AgeGroup" MinWidth="200" Style="{StaticResource ModernTextBox}" Height="40"/>
+                                    <ComboBox Name="cbAgeGroup" MinWidth="200" Style="{StaticResource ModernComboBox}" Height="40"/>
                                 </StackPanel>
                             </Grid>
 

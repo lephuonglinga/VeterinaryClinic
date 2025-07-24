@@ -22,7 +22,6 @@
                     <DataGridTextColumn Header="Item Id" Binding="{Binding ItemId}" Width="*"/>
                     <DataGridTextColumn Header="Trade Name" Binding="{Binding TradeName}" Width="*"/>
                     <DataGridTextColumn Header="Generic Name" Binding="{Binding GenericName}" Width="*"/>
-                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*"/>
                     <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*"/>
                     <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="*"/>
                     <DataGridTextColumn Header="Cost Price" Binding="{Binding CostPricePerUnit}" Width="*"/>
@@ -31,6 +30,7 @@
                     <DataGridTextColumn Header="Expiration Date" Binding="{Binding ExpirationDate}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <Button x:Name="SaveButton" Content="Save change" Click="SaveButton_Click"></Button>
         </StackPanel>
 
     </Grid>

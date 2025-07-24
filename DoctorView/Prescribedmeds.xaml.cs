@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VeterinaryClinic.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace VeterinaryClinic.DoctorView
 {
@@ -38,8 +39,41 @@ namespace VeterinaryClinic.DoctorView
 
         private void Page_Loaded()
         {
-            DgPrescribedMeds.ItemsSource = context.Prescribedmeds.Where(pm => pm.PrescriptionId == prescription.Id)
+            if (prescription == null)
+            {
+                MessageBox.Show("Prescription is null. Cannot load prescribed medications.");
+                return;
+            }
+
+            var data = context.Prescribedmeds.Where(pm => pm.PrescriptionId == prescription.Id)
                 .ToList();
+
+            DgPrescribedMeds.ItemsSource = context.Prescribedmeds.Where(pm => pm.PrescriptionId == prescription.Id).Include(pm => pm.Medication)
+                .ToList();
+
+            Receipt? receipt = context.Receipts.FirstOrDefault(r => r.PrescriptionId == prescription.Id);
+            if (receipt == null)
+            {
+                MessageBox.Show("No receipt found for the given prescription.");
+                return;
+            }
+
+            decimal totalAmount = 0;
+            foreach (var item in data)
+            {
+                if (item.Medication?.SalePricePerUnit != null && item.Quantity != null)
+                {
+                    totalAmount += (decimal)(item.Medication.SalePricePerUnit * item.Quantity);
+                }
+                else {                    
+                    MessageBox.Show("Medication sale price or quantity is null for one or more prescribed medications.");
+                    return;
+                }
+            }
+            receipt.TotalAmount = (decimal) totalAmount;
+
+            context.Update(receipt);
+            context.SaveChanges();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -74,7 +108,7 @@ namespace VeterinaryClinic.DoctorView
             }
             MedId.SelectedItem = selectedMed.Medication;
             MedId.Text = selectedMed.Medication?.TradeName ?? string.Empty;
-            MedId.IsEnabled = false;
+            
             Quantity.Text = selectedMed.Quantity.ToString();
             Freq.Text = selectedMed.Frequency;
             Route.Text = selectedMed.Route;
@@ -89,7 +123,7 @@ namespace VeterinaryClinic.DoctorView
             MedId.DisplayMemberPath = "TradeName";
             MedId.SelectedValuePath = "ItemId";
             isEdit = true;
-            PresId.Text = prescription.Id.ToString();
+            PresId.Text = prescription != null ? prescription.Id.ToString() : string.Empty;
             isEdit = edit;
             if (edit)
             {
@@ -111,7 +145,12 @@ namespace VeterinaryClinic.DoctorView
                 newPrescribedmed.Quantity = int.Parse(Quantity.Text);
                 newPrescribedmed.Frequency = Freq.Text;
                 newPrescribedmed.Route = Route.Text;
-                newPrescribedmed.Date = DateOnly.FromDateTime(DateTime.Now);
+                newPrescribedmed.Date = DateOnly.FromDateTime(DateTime.Now);                
+                Receipt receipt = context.Receipts.FirstOrDefault(r => r.PrescriptionId == prescription.Id) ?? new Receipt();
+                receipt.PrescriptionId = prescription.Id;
+                receipt.Date = DateOnly.FromDateTime(DateTime.Now);
+                receipt.TotalAmount = 0; 
+                context.Receipts.Add(receipt);
                 context.Prescribedmeds.Add(newPrescribedmed);
                 context.SaveChanges();
             }
@@ -131,7 +170,7 @@ namespace VeterinaryClinic.DoctorView
                 context.Prescribedmeds.Update(selectedMed);
                 context.SaveChanges();
                 MessageBox.Show("Prescribed medication updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            }            
             PresMedForm.Visibility = Visibility.Collapsed;
             Page_Loaded();
         }

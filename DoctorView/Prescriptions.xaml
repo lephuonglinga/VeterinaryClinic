@@ -195,6 +195,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </Page.Resources>
+    
 
     <Grid Background="#F5F6FA">
         <Grid.ColumnDefinitions>
@@ -362,21 +363,78 @@
                                                 ShadowDepth="1" Opacity="0.05" BlurRadius="4"/>
                             </Border.Effect>
 
+                            
                             <DataGrid Name="DgPrescription" 
                                     AutoGenerateColumns="False" 
                                     CanUserAddRows="False"
                                     Style="{StaticResource ModernDataGridStyle}"
                                     ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}"
                                     Margin="0">
+                                <DataGrid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGrid.Resources>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Prescription ID" 
-                                                      Binding="{Binding Id}" 
-                                                      Width="*"/>
+                                    <DataGridTextColumn Header="Prescription ID"
+                                                      Binding="{Binding PrescriptionId}" 
+                                                      Width="*">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="TextAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
                                     <DataGridTextColumn Header="Patient ID" 
                                                       Binding="{Binding PatientId}" 
-                                                      Width="*"/>
+                                                      Width="*">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="TextAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
                                     <DataGridTextColumn Header="Date" 
-                                                      Binding="{Binding Date}" 
+                                                      Binding="{Binding PrescriptionDate}" 
+                                                      Width="*">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="TextAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="ReceiptId" 
+                                                      Binding="{Binding ReceiptId}" 
+                                                      Width="*">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="TextAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="ReceiptAmount" 
+                                                      Binding="{Binding ReceiptAmount}" 
+                                                      Width="*">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="TextAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="ReceiptDate"
+                                                      Binding="{Binding ReceiptDate}" 
                                                       Width="*"/>
                                     <DataGridTemplateColumn Header="Actions" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -388,7 +446,7 @@
                                                     <Button Content="View Medications" 
                                                             Name="Presribedmeds" 
                                                             Click="Presribedmeds_Click" 
-                                                            Tag="{Binding}" 
+                                                            Tag="{Binding PrescriptionId}" 
                                                             Style="{StaticResource ActionButtonStyle}"
                                                             MinWidth="120" Height="32"
                                                             Margin="2"/>

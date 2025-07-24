@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VeterinaryClinic.Models;
+using System.Collections.ObjectModel;
 
 namespace VeterinaryClinic.AdminView
 {
@@ -22,6 +23,8 @@ namespace VeterinaryClinic.AdminView
     public partial class PharmacyInventory : Page
     {
         VeterinaryClinicContext context = new VeterinaryClinicContext();
+        ObservableCollection<VeterinaryClinic.Models.PharmacyInventory> inventories = new ObservableCollection<VeterinaryClinic.Models.PharmacyInventory>(); // Initialize to avoid null
+
         public PharmacyInventory()
         {
             InitializeComponent();
@@ -30,7 +33,41 @@ namespace VeterinaryClinic.AdminView
 
         private void LoadPharmacyInventory()
         {
-            DgPharmacy.ItemsSource = context.PharmacyInventories.ToList();
+            if (context.PharmacyInventories != null)
+            {
+                inventories = new ObservableCollection<VeterinaryClinic.Models.PharmacyInventory>(context.PharmacyInventories.ToList());
+                DgPharmacy.ItemsSource = inventories;
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                foreach (var inv in inventories)
+                {
+                    if (inv.ItemId == 0)
+                    {
+                        context.Add(inv);
+                    }
+                    else
+                    {
+                        context.Update(inv);
+                    }
+                }
+
+                var dbIds = inventories.Select(e => e.ItemId).ToList();
+                var toRemove = context.PharmacyInventories.Where(e => !dbIds.Contains(e.ItemId)).ToList();
+                context.RemoveRange(toRemove);
+                context.SaveChanges();
+                MessageBox.Show("Update Success!");
+                LoadPharmacyInventory();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error happened, try again!", "Error", MessageBoxButton.OK);
+                return;
+            }
         }
     }
 }

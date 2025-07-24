@@ -391,7 +391,7 @@
                                                  FontWeight="SemiBold" Foreground="#2C3E50" 
                                                  Margin="0,0,0,5"/>
                                         <ComboBox Name="MedId" 
-                                                Style="{StaticResource ModernComboBoxStyle}" 
+                                                
                                                 Margin="0,0,0,15"/>
 
                                         <TextBlock Text="Frequency" FontWeight="SemiBold" 
@@ -464,11 +464,14 @@
                                                       Binding="{Binding Frequency}" 
                                                       Width="*"/>
                                     <DataGridTextColumn Header="Route" 
-                                                      Binding="{Binding Route}" 
-                                                      Width="*"/>
+                                                      Binding="{Binding Route}"                                    
+                                                       Width="*"/>
                                     <DataGridTextColumn Header="Date" 
                                                       Binding="{Binding Date}" 
                                                       Width="*"/>
+                                    <DataGridTextColumn Header="Medication" 
+                                                      Binding="{Binding Medication.SalePricePerUnit}" 
+                                                      Width="*"/>   
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Border>
