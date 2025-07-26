@@ -272,37 +272,13 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Search Box -->
-                            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,15,0">
                                 <TextBlock Text="Search Clients" FontSize="12" FontWeight="SemiBold" 
                                        Foreground="#495057" Margin="0,0,0,5"/>
                                 <TextBox Name="SearchBox" Style="{StaticResource SearchTextBox}" 
                                      Height="40" />
                             </StackPanel>
-
-                            <!-- Sort By -->
-                            <StackPanel Grid.Column="1" Margin="0,0,15,0">
-                                <TextBlock Text="Sort By" FontSize="12" FontWeight="SemiBold" 
-                                       Foreground="#495057" Margin="0,0,0,5"/>
-                                <ComboBox Name="SortComboBox" Style="{StaticResource ModernComboBox}" 
-                                      Height="40">
-                                    <ComboBoxItem Content="First Name"/>
-                                    <ComboBoxItem Content="Last Name"/>
-                                    <ComboBoxItem Content="Client ID"/>
-                                    <ComboBoxItem Content="Phone Number"/>
-                                </ComboBox>
-                            </StackPanel>
-
-                            <!-- Filter -->
-                            <StackPanel Grid.Column="2" Margin="0,0,15,0">
-                                <TextBlock Text="Filter" FontSize="12" FontWeight="SemiBold" 
-                                       Foreground="#495057" Margin="0,0,0,5"/>
-                                <ComboBox Name="FilterComboBox" Style="{StaticResource ModernComboBox}" 
-                                      Height="40">
-                                    <ComboBoxItem Content="All Clients"/>
-                                    <ComboBoxItem Content="Active Clients"/>
-                                    <ComboBoxItem Content="Recent Clients"/>
-                                </ComboBox>
-                            </StackPanel>
+                            
 
                             <!-- Search Button -->
                             <Button Grid.Column="3" Content="Search" Style="{StaticResource ModernButton}" 

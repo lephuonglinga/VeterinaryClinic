@@ -347,7 +347,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Search Box -->
-                        <TextBox Grid.Column="0" 
+                        <TextBox Grid.Column="0" Grid.ColumnSpan="2" 
                                  x:Name="SearchBox" 
                                  Style="{StaticResource ModernTextBox}" 
                                  Text="Search cases..." 
@@ -355,7 +355,7 @@
                                  Margin="0"/>
 
                         <!-- Action Buttons -->
-                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0,0,0">
                             <Button x:Name="btnAdd" 
                                     Click="btnAdd_Click" 
                                     Style="{StaticResource PrimaryButton}" 
@@ -376,7 +376,7 @@
                     <!-- Case Form -->
                     <Border Name="CaseForm" 
                             Style="{StaticResource CardStyle}" 
-                            Visibility="Visible" 
+                            Visibility="Collapsed" 
                             Margin="0,0,0,30" 
                             Padding="30">
                         <StackPanel>
@@ -424,18 +424,12 @@
 
                                 <!-- Left Column -->
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Date" Style="{StaticResource ModernLabel}"/>
-                                    <DatePicker Name="Date" Style="{StaticResource ModernDatePicker}" Margin="0,0,0,20"/>
-
                                     <TextBlock Text="Case Type" Style="{StaticResource ModernLabel}"/>
-                                    <TextBox Name="CaseType" Style="{StaticResource ModernTextBox}"/>
+                                    <ComboBox Name="CaseType" Style="{StaticResource ModernComboBox}"/>
                                 </StackPanel>
 
                                 <!-- Right Column -->
                                 <StackPanel Grid.Column="2">
-                                    <TextBlock Text="Status" Style="{StaticResource ModernLabel}"/>
-                                    <TextBox Name="Status" Style="{StaticResource ModernTextBox}" Margin="0,0,0,20"/>
-
                                     <TextBlock Text="Diagnosis" Style="{StaticResource ModernLabel}"/>
                                     <ComboBox Name="Diagnosis" Style="{StaticResource ModernComboBox}"/>
                                 </StackPanel>
@@ -505,6 +499,18 @@
                                 <DataGridTextColumn Header="🏥 Case Type" Binding="{Binding CaseType}" Width="*"/>
                                 <DataGridTextColumn Header="🔬 Diagnosis" Binding="{Binding Diagnosis.Name}" Width="*"/>
                                 <DataGridTextColumn Header="📝 Notes" Binding="{Binding Notes}" Width="*"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="✏️ Delete"
+                                                    Name="BtnDelete"
+                                                    Click="BtnDelete_Click"
+                                                    Style="{StaticResource SecondaryButton}" 
+                                                    Command="{Binding DataContext.EditCaseCommand, RelativeSource={RelativeSource AncestorType=Page}}" 
+                                                    Tag="{Binding}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>

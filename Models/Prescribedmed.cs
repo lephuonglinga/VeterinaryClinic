@@ -20,6 +20,12 @@ public partial class Prescribedmed
     public DateOnly? Date { get; set; }
 
     public virtual PharmacyInventory? Medication { get; set; }
+    
+    public decimal? TotalPrice
+    {
+        get { return Medication?.SalePricePerUnit * Quantity; }        
+    }
+
 
     public virtual Prescription? Prescription { get; set; }
 }

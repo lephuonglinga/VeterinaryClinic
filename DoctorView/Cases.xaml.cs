@@ -59,28 +59,32 @@ namespace VeterinaryClinic.DoctorView
             {
                 CbPatient.SelectedValue = currentPatient.PatientId;
                 CbPatient.IsEnabled = false;
-            }
-            else
-            {
-                MessageBox.Show("No patient selected. Please select a patient to view their cases.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-                Diagnosis.ItemsSource = context.Diagnoses.ToList();
+            }            
+            Diagnosis.ItemsSource = context.Diagnoses.ToList();
             Diagnosis.DisplayMemberPath = "Name";
             Diagnosis.SelectedValuePath = "Id";
+
+            CaseType.ItemsSource = new List<string> { "Medical", "Surgical"};
+
+            CaseType.SelectedIndex = 0;
+            Diagnosis.SelectedIndex = 0;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            isEdit = false;
+            BannerId.Visibility = Visibility.Collapsed;
             Title.Text = "Add New Case";
             CaseForm.Visibility = Visibility.Visible;
+            CbPatient.SelectedValue = string.Empty;
+            CbPatient.IsEnabled = true;
+            isEdit = false;
+            CaseId.Text = string.Empty;
+            CaseType.SelectedIndex = 0;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            CaseForm.Visibility = Visibility.Collapsed;
-            Date.Text = "";
-            Status.Text = "";
+            CaseForm.Visibility = Visibility.Collapsed;            
             Diagnosis.SelectedItem = null;
             Note.Text = "";
             CbPatient.SelectedItem = null;
@@ -88,7 +92,7 @@ namespace VeterinaryClinic.DoctorView
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (CbPatient.SelectedItem == null || Diagnosis.SelectedItem == null || string.IsNullOrWhiteSpace(Date.Text) || string.IsNullOrWhiteSpace(Status.Text))
+            if (CbPatient.SelectedItem == null || Diagnosis.SelectedItem == null)
             {
                 MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -98,9 +102,9 @@ namespace VeterinaryClinic.DoctorView
                 Case newCase = new Case
                 {
                     PatientId = CbPatient.SelectedValue.ToString(),
-                    Date = DateOnly.Parse(Date.Text),
-                    Status = Status.Text,
-                    CaseType = CaseType.Text,
+                    Date = DateOnly.FromDateTime(DateTime.Now),
+                    Status = "New",
+                    CaseType = CaseType.SelectedValue as string,
                     DiagnosisId = (int)Diagnosis.SelectedValue,
                     Notes = Note.Text,
                     DoctorVcnNo = DoctorContext.CurrentDoctor?.VcnNo
@@ -124,19 +128,9 @@ namespace VeterinaryClinic.DoctorView
                 }
 
                 @case.PatientId = CbPatient.SelectedValue.ToString();
-
-                if (DateOnly.TryParse(Date.Text, out DateOnly caseDate))
-                {
-                    @case.Date = caseDate;
-                }
-                else
-                {
-                    MessageBox.Show("Invalid date format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
+                @case.Date = DateOnly.FromDateTime(DateTime.Now);
                 @case.Status = "Updated";
-                @case.CaseType = CaseType.Text;
+                @case.CaseType = CaseType.SelectedValue as string;
                 @case.DiagnosisId = (int)Diagnosis.SelectedValue;
                 @case.Notes = Note.Text;
                 context.Cases.Update(@case);
@@ -160,7 +154,34 @@ namespace VeterinaryClinic.DoctorView
             CbPatient.SelectedValue = @case.PatientId;
             CbPatient.IsEnabled = false;
             isEdit = true;
-            CaseId.Text = @case.Id.ToString();
+            CaseId.Text = @case.Id.ToString();                     
+            Diagnosis.SelectedValue = @case.DiagnosisId;
+            CaseType.SelectedValue = @case.CaseType;
+
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Button? btn = sender as Button;
+            if (btn == null)
+            {
+                MessageBox.Show("Please select a case to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            Case? @case = btn.Tag as Case;
+            if (@case == null)
+            {
+                MessageBox.Show("Please select a case to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete the case with ID: {@case.Id}?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                context.Cases.Remove(@case);
+                context.SaveChanges();
+                MessageBox.Show("Case deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Page_Loaded();
+            }
         }
     }
 }

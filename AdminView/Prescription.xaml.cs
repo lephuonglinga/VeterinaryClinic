@@ -37,10 +37,10 @@ namespace VeterinaryClinic.AdminView
                 {
                     PrescriptionId = p.Id,
                     PrescriptionDate = p.Date,
-                    PatientId = p.Patient.PatientId,
+                    PatientId = p != null ? ( p.Patient != null ? p.Patient.PatientId : string.Empty ) : string.Empty,
                     ReceiptId = r != null ? r.Id : (int?)null,
                     ReceiptAmount = r != null ? r.TotalAmount : 0,
-                    DoctorVcn = p.PrescribingDoctorVcnNoNavigation.VcnNo,
+                    DoctorVcn = p != null ? (p.PrescribingDoctorVcnNoNavigation != null ? p.PrescribingDoctorVcnNoNavigation.VcnNo : string.Empty) : string.Empty,
                     ReceiptDate = r != null ? r.Date : (DateOnly?)null
                 })
                 .ToList();

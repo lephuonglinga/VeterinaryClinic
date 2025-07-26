@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VeterinaryClinic.Models;
 
 public partial class Prescription
 {
+    [NotMapped]
+    public bool IsSelected { get; set; }  // để bind checkbox
     public int Id { get; set; }
 
     public string? PatientId { get; set; }
