@@ -32,6 +32,9 @@
     <Compile Update="ClientView\ClientProfile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="CommonView\ResetPassword.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="DoctorView\AddNewCases.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -15,6 +15,7 @@ using VeterinaryClinic.Service;
 using VeterinaryClinic.Models;
 using VeterinaryClinic.DoctorView;
 using VeterinaryClinic.AdminView;
+using VeterinaryClinic.CommonView;
 
 
 namespace VeterinaryClinic
@@ -84,6 +85,12 @@ namespace VeterinaryClinic
                 adminDetailsWindow.Show();
                 this.Close();
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ResetPassword resetPasswordWindow = new ResetPassword();
+            resetPasswordWindow.Show();
         }
     }
 }
