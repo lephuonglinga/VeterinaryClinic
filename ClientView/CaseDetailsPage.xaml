@@ -222,7 +222,7 @@
             <Border Grid.Row="1" Background="White" CornerRadius="12" Padding="20" Margin="0,0,0,16">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -230,31 +230,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Search Box -->
-                    <Grid Grid.Column="0" Margin="0,0,12,0">
-                        <TextBox x:Name="SearchTextBox" 
-                                 Style="{StaticResource SearchTextBoxStyle}" 
-                                 FontSize="14"/>
-                        <TextBlock Text="Search cases..." 
-                                   Foreground="{StaticResource TextGray}" 
-                                   IsHitTestVisible="False" 
-                                   Margin="12,8" 
-                                   VerticalAlignment="Center">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=SearchTextBox, Path=Text}" Value="">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=SearchTextBox, Path=Text}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
+                    <!-- Search Box -->                    
 
                     <!-- Status Filter -->
                     <TextBlock Grid.Column="1" 
@@ -267,7 +243,7 @@
                               Grid.Column="2" 
                               Style="{StaticResource ModernComboBoxStyle}" 
                               MinWidth="90" 
-                              Margin="0,0,12,0">
+                              Margin="0,0,12,0" SelectionChanged="StatusFilterComboBox_SelectionChanged">
                         <ComboBoxItem Content="All Status"/>
                         <ComboBoxItem Content="Active"/>
                         <ComboBoxItem Content="Completed"/>
@@ -285,7 +261,7 @@
                               Grid.Column="4" 
                               Style="{StaticResource ModernComboBoxStyle}" 
                               MinWidth="90" 
-                              Margin="0,0,12,0">
+                              Margin="0,0,12,0" SelectionChanged="TypeFilterComboBox_SelectionChanged">
                         <ComboBoxItem Content="All Types"/>
                         <ComboBoxItem Content="Surgery"/>
                         <ComboBoxItem Content="Consultation"/>

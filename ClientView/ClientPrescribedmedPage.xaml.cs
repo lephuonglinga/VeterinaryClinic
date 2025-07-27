@@ -53,5 +53,22 @@ namespace VeterinaryClinic.ClientView
             
         }
 
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = SearchTextBox.Text.ToLower();
+            if (prescription == null)
+            {
+                MessageBox.Show("Prescription is null. Cannot filter prescribed medications.");
+                return;
+            }
+            DgPresMed.ItemsSource = context.Prescribedmeds.Include(pm => pm.Medication)
+                .Where(pm => pm.PrescriptionId == prescription.Id && 
+                             (pm.Medication.TradeName.ToLower().Contains(searchText) || 
+                              pm.Medication.Category.ToLower().Contains(searchText) ||
+                              pm.Route.ToLower().Contains(searchText) || 
+                              pm.Frequency.ToLower().Contains(searchText)))
+                .Include(pm => pm.Medication)
+                .ToList();
+        }
     }
 }

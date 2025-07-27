@@ -22,11 +22,18 @@ namespace VeterinaryClinic
     public partial class CaseDetailsPage : Page
     {
         private readonly VeterinaryClinicContext context = new VeterinaryClinicContext();
-
+        private Patient? currentPatient;
         public CaseDetailsPage(Patient patient)
         {
             InitializeComponent();
 
+            Page_Loaded(patient);
+            currentPatient = patient;
+            Combobox_Loaded();
+        }
+
+        private void Page_Loaded(Patient? patient)
+        {
             if (patient?.PatientId != null)
             {
                 List<Case> cases = context.Cases
@@ -37,10 +44,68 @@ namespace VeterinaryClinic
             }
         }
 
+        private void Combobox_Loaded()
+        {
+            TypeFilterComboBox.Items.Clear();
+            TypeFilterComboBox.ItemsSource = new List<string>
+            {
+                "All", "Medical", "Surgical"
+            };
+
+            StatusFilterComboBox.Items.Clear();
+            StatusFilterComboBox.ItemsSource = new List<string>
+            {
+               "All", "New", "Updated"
+            };
+            TypeFilterComboBox.SelectedIndex = 0; // Default to "All"
+            StatusFilterComboBox.SelectedIndex = 0; // Default to "All"
+        }
+
         private void Back_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             NavigationService?.GoBack();
         }
-        
+
+        private void TypeFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Page_Loaded(currentPatient);
+            var list = dgCases.ItemsSource as List<Case>;
+            if (list != null)
+            {
+                if (TypeFilterComboBox.SelectedValue is string selectedItem)
+                {
+                    string selectedType = selectedItem;
+                    if (selectedType == "All")
+                    {
+                        dgCases.ItemsSource = list;
+                    }
+                    else
+                    {
+                        dgCases.ItemsSource = list.Where(c => c.CaseType == selectedType).ToList();
+                    }
+                }
+            }
+        }
+
+        private void StatusFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Page_Loaded(currentPatient);
+            var list = dgCases.ItemsSource as List<Case>;
+            if (list != null)
+            {
+                if (StatusFilterComboBox.SelectedValue is string selectedItem)
+                {
+                    string selectedStatus = selectedItem;
+                    if (selectedStatus == "All")
+                    {
+                        dgCases.ItemsSource = list;
+                    }
+                    else
+                    {
+                        dgCases.ItemsSource = list.Where(c => c.Status == selectedStatus).ToList();
+                    }
+                }
+            }
+        }
     }
 }

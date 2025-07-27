@@ -225,10 +225,10 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Search Box -->
-                    <Grid Grid.Column="0" Margin="0,0,12,0">
+                    <Grid Grid.Column="0" Grid.ColumnSpan="5" Margin="0,0,12,0">
                         <TextBox x:Name="SearchTextBox" 
                  Style="{StaticResource SearchTextBoxStyle}" 
-                 FontSize="14"/>
+                 FontSize="14" TextChanged="SearchTextBox_TextChanged"/>
                         <TextBlock Text="Search cases..." 
                    Foreground="{StaticResource TextGray}" 
                    IsHitTestVisible="False" 
@@ -249,45 +249,6 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </Grid>
-
-                    <!-- Status Filter -->
-                    <TextBlock Grid.Column="1" 
-               Text="Status:" 
-               VerticalAlignment="Center" 
-               Margin="0,0,8,0" 
-               FontWeight="Medium" 
-               Foreground="{StaticResource DarkGray}"/>
-                    <ComboBox x:Name="StatusFilterComboBox" 
-              Grid.Column="2" 
-              Style="{StaticResource ModernComboBoxStyle}" 
-              MinWidth="90" 
-              Margin="0,0,12,0">
-                        <ComboBoxItem Content="All Status"/>
-                        <ComboBoxItem Content="Active"/>
-                        <ComboBoxItem Content="Completed"/>
-                        <ComboBoxItem Content="Pending"/>
-                    </ComboBox>
-
-                    <!-- Type Filter -->
-                    <TextBlock Grid.Column="3" 
-               Text="Type:" 
-               VerticalAlignment="Center" 
-               Margin="0,0,8,0" 
-               FontWeight="Medium" 
-               Foreground="{StaticResource DarkGray}"/>
-                    <ComboBox x:Name="TypeFilterComboBox" 
-              Grid.Column="4" 
-              Style="{StaticResource ModernComboBoxStyle}" 
-              MinWidth="90" 
-              Margin="0,0,12,0">
-                        <ComboBoxItem Content="All Types"/>
-                        <ComboBoxItem Content="Surgery"/>
-                        <ComboBoxItem Content="Consultation"/>
-                        <ComboBoxItem Content="Emergency"/>
-                        <ComboBoxItem Content="Vaccination"/>
-                    </ComboBox>
-
-                    <!-- Sort Button -->
                 </Grid>
             </Border>
             <Border Grid.Row="2" Background="White" CornerRadius="12" Padding="0" Margin="0,0,0,16">
@@ -297,8 +258,9 @@
                           Name="DgPresMed"
                       IsReadOnly="True">  
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="*" Header="Prescription ID" Binding="{Binding PrescriptionId}" />
-                        <DataGridTextColumn Width="*" Header="Medication ID" Binding="{Binding MedicationId}" />
+                        <DataGridTextColumn Width="*" Header="PID" Binding="{Binding PrescriptionId}" />
+                        <DataGridTextColumn Width="*" Header="Medication" Binding="{Binding Medication.TradeName}" />
+                        <DataGridTextColumn Width="*" Header="Category" Binding="{Binding Medication.Category}" />
                         <DataGridTextColumn Width="*" Header="Frequency" Binding="{Binding Frequency}" />
                         <DataGridTextColumn Width="*" Header="Route" Binding="{Binding Route}" />
                         <DataGridTextColumn Width="*" Header="Date" Binding="{Binding Date}" />

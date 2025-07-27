@@ -230,11 +230,11 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Search Box -->
-                    <Grid Grid.Column="0" Margin="0,0,12,0">
+                    <Grid Grid.Column="0" Grid.ColumnSpan="5" Margin="0,0,12,0">
                         <TextBox x:Name="SearchTextBox" 
                              Style="{StaticResource SearchTextBoxStyle}" 
-                             FontSize="14"/>
-                        <TextBlock Text="Search cases..." 
+                             FontSize="14" TextChanged="SearchTextBox_TextChanged"/>
+                        <TextBlock Text="Search..." 
                                Foreground="{StaticResource TextGray}" 
                                IsHitTestVisible="False" 
                                Margin="12,8" 
@@ -254,43 +254,7 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </Grid>
-
-                    <!-- Status Filter -->
-                    <TextBlock Grid.Column="1" 
-                           Text="Status:" 
-                           VerticalAlignment="Center" 
-                           Margin="0,0,8,0" 
-                           FontWeight="Medium" 
-                           Foreground="{StaticResource DarkGray}"/>
-                    <ComboBox x:Name="StatusFilterComboBox" 
-                          Grid.Column="2" 
-                          Style="{StaticResource ModernComboBoxStyle}" 
-                          MinWidth="90" 
-                          Margin="0,0,12,0">
-                        <ComboBoxItem Content="All Status"/>
-                        <ComboBoxItem Content="Active"/>
-                        <ComboBoxItem Content="Completed"/>
-                        <ComboBoxItem Content="Pending"/>
-                    </ComboBox>
-
-                    <!-- Type Filter -->
-                    <TextBlock Grid.Column="3" 
-                           Text="Type:" 
-                           VerticalAlignment="Center" 
-                           Margin="0,0,8,0" 
-                           FontWeight="Medium" 
-                           Foreground="{StaticResource DarkGray}"/>
-                    <ComboBox x:Name="TypeFilterComboBox" 
-                          Grid.Column="4" 
-                          Style="{StaticResource ModernComboBoxStyle}" 
-                          MinWidth="90" 
-                          Margin="0,0,12,0">
-                        <ComboBoxItem Content="All Types"/>
-                        <ComboBoxItem Content="Surgery"/>
-                        <ComboBoxItem Content="Consultation"/>
-                        <ComboBoxItem Content="Emergency"/>
-                        <ComboBoxItem Content="Vaccination"/>
-                    </ComboBox>
+                    
 
                     <!-- Sort Button -->
                 </Grid>
