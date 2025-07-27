@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VeterinaryClinic.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace VeterinaryClinic
 {
@@ -23,6 +24,7 @@ namespace VeterinaryClinic
     {
         private readonly Client? currentClient;
         private readonly User? linkedUser;
+        VeterinaryClinicContext context = new VeterinaryClinicContext();
 
         public ClientProfile()
         {
@@ -32,9 +34,8 @@ namespace VeterinaryClinic
                 throw new ArgumentNullException(nameof(client), "Client cannot be null");
             }
             InitializeComponent();
-            currentClient = client;
-
-            using var context = new VeterinaryClinicContext();
+            currentClient = context.Clients.Include(c => c.UsernameNavigation).FirstOrDefault(c => c.Username == client.Username);
+            
             
             linkedUser = context.Users
                 .FirstOrDefault(u => u.Client != null && u.Client.ClientId == client.ClientId);
@@ -48,6 +49,41 @@ namespace VeterinaryClinic
             }
             
             txtAddress.Text = currentClient.Address;            
-        }        
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string firstName = txtFirstName.Text.Trim();
+            string lastName = txtLastName.Text.Trim();
+            string email = txtEmail.Text.Trim();
+            string phone = txtPhone.Text.Trim();
+            string address = txtAddress.Text.Trim();
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(address))
+            {
+                MessageBox.Show("All fields are required", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!Validation.Validate.IsValidPhoneNo(phone))
+            {
+                MessageBox.Show("Invalid phone number", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (currentClient != null)
+            {
+                currentClient.Address = address;
+                currentClient.UsernameNavigation.FirstName = firstName;
+                currentClient.UsernameNavigation.LastName = lastName;
+                currentClient.UsernameNavigation.PhoneNo = phone;                
+            }
+            using (var context = new VeterinaryClinicContext())
+            {                
+                if (currentClient != null)
+                {
+                    context.Clients.Update(currentClient);
+                }
+                context.SaveChanges();
+                MessageBox.Show("Profile updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
     }
 }

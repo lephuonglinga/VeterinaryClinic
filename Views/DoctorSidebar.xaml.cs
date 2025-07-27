@@ -104,5 +104,10 @@ namespace VeterinaryClinic.Views
 
             }
         }
+
+        private void ListBoxItem_Selected_1(object sender, RoutedEventArgs e)
+        {
+            CheckRole("Doctor Details window is not available.", new DoctorProfile());
+        }
     }
 }
