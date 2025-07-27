@@ -38,9 +38,10 @@
                         <DataGridTemplateColumn Header="Actions" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Lock" 
-                                Name="ClientDetail"                                
-                                Tag="{Binding}"                     
+                                    <Button Content="{Binding ActionText}"
+                                Name="Doctor"                                
+                                Click="Doctor_Click"
+                                Tag="{Binding VcnNo}"                     
                                 Height="35" Width="100"
                                 FontSize="12"
                                 Margin="10,5"/>

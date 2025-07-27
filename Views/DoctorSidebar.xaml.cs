@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VeterinaryClinic.Models;
 using VeterinaryClinic.DoctorView;
+using VeterinaryClinic.Models;
 
 namespace VeterinaryClinic.Views
 {
@@ -22,6 +24,7 @@ namespace VeterinaryClinic.Views
     /// </summary>
     public partial class DoctorSidebar : UserControl
     {
+        VeterinaryClinicContext context = new VeterinaryClinicContext();
         public DoctorSidebar()
         {
             InitializeComponent();
@@ -39,8 +42,17 @@ namespace VeterinaryClinic.Views
 
         private void CheckRole(string message, Page page)
         {
-            Doctor? user = DoctorContext.CurrentDoctor;
+            Doctor user = DoctorContext.CurrentDoctor;
+            Doctor? doctor = context.Doctors
+                .Include(d => d.UsernameNavigation)
+                .FirstOrDefault(d => d.VcnNo == user.VcnNo);
             DoctorDetailsWindow clientDetailsWindow = DoctorDetailsWindow.GetInstance();
+
+            if (!doctor.UsernameNavigation.IsActive)
+            {
+                MessageBox.Show("Please waiting for admin to validate your account, make sure you have completed your profile", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             if (clientDetailsWindow != null)
             {
@@ -107,7 +119,18 @@ namespace VeterinaryClinic.Views
 
         private void ListBoxItem_Selected_1(object sender, RoutedEventArgs e)
         {
-            CheckRole("Doctor Details window is not available.", new DoctorProfile());
+            Doctor? user = DoctorContext.CurrentDoctor;
+            DoctorDetailsWindow clientDetailsWindow = DoctorDetailsWindow.GetInstance();
+
+            if (clientDetailsWindow != null)
+            {
+                clientDetailsWindow.MainFrame.Navigate(new DoctorProfile());
+                clientDetailsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Invalid doctor login", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

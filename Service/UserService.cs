@@ -31,11 +31,7 @@ namespace VeterinaryClinic.Service
             if (user == null)
             {
                 return null;
-            }
-            if (!user.IsActive)
-            {
-                return null;
-            }
+            }           
             if(user.PasswordHash == UserService.HashPassword(password))
             {
                 return user;
@@ -121,6 +117,9 @@ namespace VeterinaryClinic.Service
                         VcnNo = doctorId,                        
                         UsernameNavigation = user
                     };
+                    user.IsActive = false;
+                    new VeterinaryClinicContext().Update(user);
+                    new VeterinaryClinicContext().SaveChanges();
                     userRepository.AddDoctor(doctor);
                 }
                 return true;

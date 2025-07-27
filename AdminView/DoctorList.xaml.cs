@@ -40,11 +40,31 @@ namespace VeterinaryClinic.AdminView
                     d.Email,
                     d.YearGraduated,
                     FullName = $"{d.UsernameNavigation.FirstName} {d.UsernameNavigation.LastName}",
-                    IsActive = d.UsernameNavigation.IsActive,
+                    ActionText = d.UsernameNavigation.IsActive ? "Lock" : "Unlock",
                     PhoneNo = d.UsernameNavigation.PhoneNo,
                 })
                 .ToList();
         }
-        
+
+        private void Doctor_Click(object sender, RoutedEventArgs e)
+        {
+            Button? button = sender as Button;
+            if (button != null)
+            {
+                string? vcn = button.Tag as string;
+                if (vcn != null)
+                {
+                    Doctor? foundDoctor = context.Doctors
+                        .Include(d => d.UsernameNavigation)
+                        .FirstOrDefault(d => d.VcnNo == vcn);
+                    if (foundDoctor != null)
+                    {
+                        foundDoctor.UsernameNavigation.IsActive = !foundDoctor.UsernameNavigation.IsActive;
+                        context.SaveChanges();
+                        Page_Loaded(); // Refresh the data grid
+                    }
+                }
+            }
+        }
     }
 }
