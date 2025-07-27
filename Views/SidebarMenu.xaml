@@ -20,7 +20,7 @@
            <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="17" FontWeight="Bold"/>
             <ListBoxItem Content="👤 Profiles" Padding="10" FontSize="17" FontWeight="Bold" Selected="Profile_Selected"/>  
            <ListBoxItem Content="🐶 My Pets" Padding="10" FontSize="17" FontWeight="Bold" Selected="MyPets_Selected"/>  
-           <ListBoxItem Content="📜 History" Padding="10" FontSize="17" FontWeight="Bold"/>  
+           <ListBoxItem Content="📜 History" Padding="10" FontSize="17" FontWeight="Bold" Selected="ListBoxItem_Selected"/>  
            <ListBoxItem Content="📄 Documents" Padding="10" FontSize="17" FontWeight="Bold"/>  
        </ListBox>  
 

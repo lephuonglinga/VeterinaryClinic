@@ -87,5 +87,22 @@ namespace VeterinaryClinic.Views
         {
             CheckRole("Patient List window is not available.", new Prescriptions(null));
         }
+
+        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+            DoctorContext.CurrentDoctor = null;
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            DoctorDetailsWindow clientDetailsWindow = DoctorDetailsWindow.GetInstance();
+            if (clientDetailsWindow != null)
+            {
+                clientDetailsWindow.Close();
+            }
+            else
+            {
+                MessageBox.Show("Doctor Details window is not available.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+        }
     }
 }

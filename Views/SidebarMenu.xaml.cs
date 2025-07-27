@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeterinaryClinic.ClientView;
 using VeterinaryClinic.Models;
 
 namespace VeterinaryClinic.Views
@@ -52,5 +53,9 @@ namespace VeterinaryClinic.Views
             }
         }
 
+        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+            CheckRole("Client details window is not available.", new ClientPrescriptionPage(null));
+        }
     }
 }

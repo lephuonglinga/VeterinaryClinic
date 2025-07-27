@@ -2,6 +2,12 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="AdminView\AdminPrescribedMedPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminView\AdminPrescriptionPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="AdminView\AdminWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -11,13 +17,16 @@
     <Compile Update="AdminView\PharmacyInventory.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="AdminView\Prescription.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="ClientView\CaseDetailsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ClientView\ClientDetailsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ClientView\ClientPrescribedmedPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ClientView\ClientPrescriptionPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ClientView\ClientProfile.xaml.cs">

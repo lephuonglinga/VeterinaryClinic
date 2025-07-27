@@ -47,6 +47,7 @@ namespace VeterinaryClinic.DoctorView
                     .Include(p => p.Receipts)
                     .Include(p => p.Patient)
                     .Include(p => p.PrescribingDoctorVcnNoNavigation)
+                    .Where(p => p.PrescribingDoctorVcnNo == currentDoctor.VcnNo) 
                     .SelectMany(p => p.Receipts.DefaultIfEmpty(), (p, r) => new PrescriptionViewModel
                     {
                         IsSelected = false,
@@ -67,7 +68,8 @@ namespace VeterinaryClinic.DoctorView
                     .Include(p => p.Receipts)
                     .Include(p => p.Patient)
                     .Include(p => p.PrescribingDoctorVcnNoNavigation)
-                    .Where(p => p.PatientId == currentPatient.PatientId) // Filter by current patient
+                    .Where(p => p.PatientId == currentPatient.PatientId &&
+                       p.PrescribingDoctorVcnNo.Equals(currentDoctor.VcnNo))
                     .SelectMany(p => p.Receipts.DefaultIfEmpty(), (p, r) => new PrescriptionViewModel
                     {
                         IsSelected = false,
@@ -160,7 +162,6 @@ namespace VeterinaryClinic.DoctorView
             else
             {
                 var itemsToDelete = new List<PrescriptionViewModel>();
-
                 foreach (var item in DgPrescription.Items)
                 {
                     if (item is PrescriptionViewModel viewModel && viewModel.IsSelected)
@@ -171,21 +172,25 @@ namespace VeterinaryClinic.DoctorView
 
                 if (itemsToDelete.Any())
                 {
+                    bool shouldProceed = true;
+
                     foreach (var viewModel in itemsToDelete)
                     {
                         int prescriptionId = viewModel.PrescriptionId;
-                        var prescription = context.Prescriptions.FirstOrDefault(p => p.Id == prescriptionId);
+
+                        // Load the prescription with all related entities
+                        var prescription = context.Prescriptions
+                            .Include(p => p.Prescribedmeds)
+                            .Include(p => p.Receipts)
+                            .FirstOrDefault(p => p.Id == prescriptionId);
+
                         if (prescription != null)
                         {
-                            List<Prescribedmed>? prescribedmed = prescription.Prescribedmeds as List<Prescribedmed>;
-                            if(prescribedmed is null)
-                            {
-                                context.Prescriptions.Remove(prescription);
-                            }
-                            else
+                            // Check and delete prescribedmeds if any exist
+                            if (prescription.Prescribedmeds != null && prescription.Prescribedmeds.Any())
                             {
                                 var result = MessageBox.Show(
-                                    "There are prescribedmeds existed. Are you sure you want to delete these?",
+                                    $"Prescription {prescriptionId} has {prescription.Prescribedmeds.Count} prescribed medications. Are you sure you want to delete them?",
                                     "Confirm Deletion",
                                     MessageBoxButton.YesNo,
                                     MessageBoxImage.Warning
@@ -193,38 +198,60 @@ namespace VeterinaryClinic.DoctorView
 
                                 if (result == MessageBoxResult.Yes)
                                 {
-                                    context.Prescribedmeds.RemoveRange(prescribedmed);
-                                    List<Receipt>? receipts = prescription.Receipts as List<Receipt>;
-                                    if(receipts is null)
-                                    {
-                                        context.Prescriptions.Remove(prescription);
-                                    }
-                                    else
-                                    {
-                                        var result1 = MessageBox.Show(
-                                        "There are receipts existed. Are you sure you want to delete these?",
-                                        "Confirm Deletion",
-                                        MessageBoxButton.YesNo,
-                                        MessageBoxImage.Warning);
-
-                                        if(result1 == MessageBoxResult.Yes)
-                                        {
-                                            context.Receipts.RemoveRange(receipts);
-                                            context.Prescriptions.Remove(prescription);
-                                        }
-                                    }
-                                }                                
+                                    context.Prescribedmeds.RemoveRange(prescription.Prescribedmeds);
+                                }
+                                else
+                                {
+                                    shouldProceed = false;
+                                    continue; // Skip this prescription
+                                }
                             }
-                            
+
+                            // Check and delete receipts if any exist
+                            if (prescription.Receipts != null && prescription.Receipts.Any())
+                            {
+                                var result = MessageBox.Show(
+                                    $"Prescription {prescriptionId} has {prescription.Receipts.Count} receipts. Are you sure you want to delete them?",
+                                    "Confirm Deletion",
+                                    MessageBoxButton.YesNo,
+                                    MessageBoxImage.Warning
+                                );
+
+                                if (result == MessageBoxResult.Yes)
+                                {
+                                    context.Receipts.RemoveRange(prescription.Receipts);
+                                }
+                                else
+                                {
+                                    shouldProceed = false;
+                                    continue; // Skip this prescription
+                                }
+                            }
+
+                            // Finally delete the prescription
+                            context.Prescriptions.Remove(prescription);
                         }
                     }
-                    context.SaveChanges();
-                    MessageBox.Show("Selected prescriptions deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Save all changes at once, outside the loop
+                    if (shouldProceed)
+                    {
+                        try
+                        {
+                            context.SaveChanges();
+                            MessageBox.Show("Selected prescriptions deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error deleting prescriptions: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                    }
 
                     // Reset the button state
                     SelectColumn.Visibility = Visibility.Collapsed;
                     btnAction.Content = "Select to Delete";
-                    btnAction.Background = new SolidColorBrush(Color.FromRgb(52, 152, 219)); // Or your original color
+                    btnAction.Background = new SolidColorBrush(Color.FromRgb(52, 152, 219));
                     isDelete = false;
 
                     Page_Loaded();

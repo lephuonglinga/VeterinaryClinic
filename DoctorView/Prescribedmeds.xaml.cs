@@ -218,6 +218,29 @@ namespace VeterinaryClinic.DoctorView
             PresMedForm.Visibility = Visibility.Collapsed;
             Page_Loaded();
         }
-        
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button? button = sender as Button;
+            if (button == null)
+            {
+                MessageBox.Show("Prescribemed is null. Cannot perform action.");
+                return;
+            }
+            Prescribedmed? selectedMed = button.Tag as Prescribedmed;
+            if (selectedMed == null)
+            {
+                MessageBox.Show("Please select a medication to delete.");
+                return;
+            }
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this prescribed medication?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                context.Prescribedmeds.Remove(selectedMed);
+                context.SaveChanges();
+                MessageBox.Show("Prescribed medication deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Page_Loaded();
+            }
+        }
     }
 }

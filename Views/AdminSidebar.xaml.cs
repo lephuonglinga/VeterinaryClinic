@@ -42,9 +42,10 @@ namespace VeterinaryClinic.Views
                             adminWindow.MainFrame.Navigate(new PharmacyInventory());
                             break;
                         case "Prepscription":
-                            adminWindow.MainFrame.Navigate(new Prescription());
+                            adminWindow.MainFrame.Navigate(new AdminPrescriptionPage());
                             break;
-                        case "PatientListItem":                            
+                        case "PrescribedMed":
+                            adminWindow.MainFrame.Navigate(new AdminPrescribedMedPage(null));
                             break;
                         default:
                             MessageBox.Show("Selected item is not available.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

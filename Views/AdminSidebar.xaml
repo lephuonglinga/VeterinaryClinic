@@ -32,6 +32,7 @@
                 <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📜 Doctors" Name="DoctorListItem" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📜 Prepscription" Name="Prepscription" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
+                <ListBoxItem Content="📜 Prescribed Med" Name="PrescribedMed" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📄 Pharmacy" Name="PharmacyInventoryItem" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
             </ListBox>
             
