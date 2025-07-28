@@ -46,9 +46,14 @@ namespace VeterinaryClinic.DoctorView
                 PatientDataGrid.ItemsSource = context.Patients.Include(p => p.Cases).Include(p => p.Breed).Where(p => p.ClientId == currentClient.ClientId && p.Cases.Any(c => c.DoctorVcnNo == DoctorContext.CurrentDoctor.VcnNo)).ToList();
             }               
         }
+        
 
         private void ComboBox_Load()
         {
+            FilterComboBox.ItemsSource = context.Species.ToList();
+            FilterComboBox.DisplayMemberPath = "Name";
+            FilterComboBox.SelectedValuePath = "Id";
+
             CbBreed.ItemsSource = context.Breeds.ToList();
             CbBreed.DisplayMemberPath = "Name";
             CbBreed.SelectedValuePath = "Id";            
@@ -215,6 +220,69 @@ namespace VeterinaryClinic.DoctorView
             }
             DoctorDetailsWindow doctorDetailsWindow = DoctorDetailsWindow.GetInstance();
             doctorDetailsWindow.MainFrame.Navigate(new Prescriptions(selectedPatient));
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var list = PatientDataGrid.ItemsSource as List<Patient>;
+            string searchText = SearchBox.Text.ToLower();
+            if (list != null)
+            {
+                if (string.IsNullOrWhiteSpace(searchText))
+                {
+                    PatientDataGrid.ItemsSource = list; // Show all patients if search text is empty
+                }
+                else
+                {
+                    if (currentClient == null)
+                    {
+                        PatientDataGrid.ItemsSource = context.Patients
+                            .Include(p => p.Cases)
+                            .Include(p => p.Breed)
+                            .Where(p => p.Breed.Name.ToLower().Contains(searchText) && p.Cases.Any(c => c.DoctorVcnNo == DoctorContext.CurrentDoctor.VcnNo)).ToList();
+                    }
+                    else
+                    {
+                        PatientDataGrid.ItemsSource = context.Patients
+                            .Include(p => p.Cases)
+                            .Include(p => p.Breed)
+                            .Where(p => p.Breed.Name.ToLower().Contains(searchText) && p.ClientId == currentClient.ClientId && p.Cases.Any(c => c.DoctorVcnNo == DoctorContext.CurrentDoctor.VcnNo)).ToList();
+                    }
+                }
+            }
+        }
+
+        private void FilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Page_Loaded();
+            if (FilterComboBox.SelectedValue is int selectedSpecies)
+            {               
+                if (currentClient == null)
+                {
+                    PatientDataGrid.ItemsSource = context.Patients
+                        .Include(p => p.Cases)
+                        .Include(p => p.Breed)
+                        .Where(p => p.SpeciesId == selectedSpecies && p.Cases.Any(c => c.DoctorVcnNo == DoctorContext.CurrentDoctor.VcnNo)).ToList();
+                }
+                else
+                {
+                    PatientDataGrid.ItemsSource = context.Patients
+                        .Include(p => p.Cases)
+                        .Include(p => p.Breed)
+                        .Where(p => p.SpeciesId == selectedSpecies && p.ClientId == currentClient.ClientId && p.Cases.Any(c => c.DoctorVcnNo == DoctorContext.CurrentDoctor.VcnNo)).ToList();
+                }
+            }
+            else
+            {
+                // If no species is selected, show all patients
+                Page_Loaded();
+            }
+
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            Page_Loaded();
         }
     }
 }

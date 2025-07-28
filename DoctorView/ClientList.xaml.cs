@@ -99,5 +99,26 @@ namespace VeterinaryClinic.DoctorView
             DoctorDetailsWindow doctorDetailsWindow = DoctorDetailsWindow.GetInstance();
             doctorDetailsWindow.MainFrame.Navigate(new PatientList(client));
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string searchText = SearchTextBox.Text.Trim().ToLower();
+            if (string.IsNullOrEmpty(searchText))
+            {                
+                return;
+            }
+            var filteredClients = context.Users.Include(u => u.Client)
+                .ThenInclude(c => c.Patients)
+                .ThenInclude(p => p.Cases)
+                .Where(u => u.Client != null && u.Client.Patients.Any(p => p.Cases.Any(c => c.DoctorVcnNo == currentDoctor.VcnNo)) && u.Client.ClientId.ToLower().Contains(searchText))
+                .ToList();
+            if (filteredClients.Count == 0)
+                {
+                MessageBox.Show("No clients found matching the search criteria.", "Search Result", MessageBoxButton.OK, MessageBoxImage.Information);
+                Page_Loaded();
+                return;
+            }
+            ClientDataGrid.ItemsSource = filteredClients;
+        }
     }
 }

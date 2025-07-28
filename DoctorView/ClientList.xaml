@@ -275,14 +275,14 @@
                             <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,15,0">
                                 <TextBlock Text="Search Clients" FontSize="12" FontWeight="SemiBold" 
                                        Foreground="#495057" Margin="0,0,0,5"/>
-                                <TextBox Name="SearchBox" Style="{StaticResource SearchTextBox}" 
+                                <TextBox Name="SearchTextBox" Style="{StaticResource SearchTextBox}" 
                                      Height="40" />
                             </StackPanel>
                             
 
                             <!-- Search Button -->
                             <Button Grid.Column="3" Content="Search" Style="{StaticResource ModernButton}" 
-                                Height="40" Width="100" VerticalAlignment="Bottom"/>
+                                Height="40" Width="100" VerticalAlignment="Bottom" Click="Button_Click"/>
                         </Grid>
                     </Border>
 

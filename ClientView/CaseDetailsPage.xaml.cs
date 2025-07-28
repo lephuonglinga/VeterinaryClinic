@@ -107,5 +107,49 @@ namespace VeterinaryClinic
                 }
             }
         }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var list = dgCases.ItemsSource as List<Case>;
+            string searchText = SearchTextBox.Text.ToLower();
+            if (string.IsNullOrEmpty(searchText))
+            {
+                Page_Loaded(currentPatient);
+                list = dgCases.ItemsSource as List<Case>;
+                if (list != null)
+                {
+                    if (StatusFilterComboBox.SelectedValue is string selectedItem)
+                    {
+                        string selectedStatus = selectedItem;
+                        if (selectedStatus == "All")
+                        {
+                            dgCases.ItemsSource = list;
+                        }
+                        else
+                        {
+                            dgCases.ItemsSource = list.Where(c => c.Status == selectedStatus).ToList();
+                        }
+                    }
+                    if (TypeFilterComboBox.SelectedValue is string selectedItem1)
+                    {
+                        string selectedType = selectedItem1;
+                        if (selectedType == "All")
+                        {
+                            dgCases.ItemsSource = list;
+                        }
+                        else
+                        {
+                            dgCases.ItemsSource = list.Where(c => c.CaseType == selectedType).ToList();
+                        }
+                    }
+                }
+
+            }            
+            else
+            {
+                if(list !=null)
+                dgCases.ItemsSource = list.Where(c => c.CaseType.ToLower().Contains(searchText)).ToList();            
+            }
+        }
     }
 }

@@ -309,7 +309,7 @@
 
     <Grid Background="#F8F9FA">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -370,7 +370,7 @@
                                 <TextBlock Text="Search Patients" FontSize="12" FontWeight="SemiBold" 
                                            Foreground="#495057" Margin="0,0,0,5"/>
                                 <TextBox Name="SearchBox" Style="{StaticResource SearchTextBox}" 
-                                         Height="40" />
+                                         Height="40" TextChanged="SearchBox_TextChanged" />
                             </StackPanel>
                                                         
                             <!-- Filter -->
@@ -378,18 +378,13 @@
                                 <TextBlock Text="Filter by Species" FontSize="12" FontWeight="SemiBold" 
                                            Foreground="#495057" Margin="0,0,0,5"/>
                                 <ComboBox Name="FilterComboBox" Style="{StaticResource ModernComboBox}" 
-                                          Height="40">
-                                    <ComboBoxItem Content="All Species"/>
-                                    <ComboBoxItem Content="Dogs"/>
-                                    <ComboBoxItem Content="Cats"/>
-                                    <ComboBoxItem Content="Birds"/>
-                                    <ComboBoxItem Content="Others"/>
+                                          Height="40" SelectionChanged="FilterComboBox_SelectionChanged">
                                 </ComboBox>
                             </StackPanel>
 
                             <!-- Search Button -->
-                            <Button Grid.Column="2" Content="Search" Style="{StaticResource ModernButton}" 
-                                    Height="40" Width="100" VerticalAlignment="Bottom"/>
+                            <Button Grid.Column="2" Content="Reset" Style="{StaticResource ModernButton}" 
+                                    Height="40" Width="100" VerticalAlignment="Bottom" Name="btnReset" Click="btnReset_Click"/>
                         </Grid>
                     </Border>
 
@@ -484,10 +479,10 @@
                                     <DataGridTextColumn Header="Patient ID" 
                                                         Binding="{Binding PatientId}" 
                                                         Width="*" MinWidth="120"/>
-                                    <DataGridTextColumn Header="Species" 
+                                    <DataGridTextColumn Header="Breed" 
                                                         Binding="{Binding Breed.Name}" 
                                                         Width="*" MinWidth="120"/>
-                                    <DataGridTextColumn Header="Breed" 
+                                    <DataGridTextColumn Header="Species" 
                                                         Binding="{Binding Species.Name}" 
                                                         Width="*" MinWidth="120"/>
                                     <DataGridTemplateColumn Header="Actions" Width="*" MinWidth="350">

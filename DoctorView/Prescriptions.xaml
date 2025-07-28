@@ -258,7 +258,7 @@
                                     <TextBlock Grid.Column="0" Text="🔍" FontSize="16" 
                                              VerticalAlignment="Center" Margin="12,0,8,0" 
                                              Foreground="#999"/>
-                                    <TextBox Grid.Column="1" x:Name="SearchBox" 
+                                    <TextBox Grid.Column="1" x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged"
                                            Background="Transparent" BorderThickness="0" 
                                            VerticalAlignment="Center" FontSize="14"
                                            Foreground="#333" Margin="0,0,12,0"/>
@@ -352,7 +352,7 @@
                                                 ShadowDepth="1" Opacity="0.05" BlurRadius="4"/>
                             </Border.Effect>
 
-                            
+
                             <DataGrid Name="DgPrescription" 
                                     AutoGenerateColumns="False" 
                                     CanUserAddRows="False"

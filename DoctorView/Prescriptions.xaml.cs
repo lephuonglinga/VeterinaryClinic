@@ -262,6 +262,65 @@ namespace VeterinaryClinic.DoctorView
                 }
             }
         }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = SearchTextBox.Text.ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                Page_Loaded();
+                return;
+            }
+
+            if (currentPatient == null)
+            {
+                var data = context.Prescriptions
+                    .Include(p => p.Receipts)
+                    .Include(p => p.Patient)
+                    .Include(p => p.PrescribingDoctorVcnNoNavigation)
+                    .Where(p => p.PrescribingDoctorVcnNoNavigation.VcnNo == currentDoctor.VcnNo &&
+                                (p.Id.ToString().Contains(searchText) ||
+                                 p.PrescribingDoctorVcnNoNavigation.VcnNo.ToLower().Contains(searchText)))
+                    .SelectMany(p => p.Receipts.DefaultIfEmpty(), (p, r) => new
+                    {
+                        IsSelected = false,
+                        PrescriptionId = p.Id,
+                        PrescriptionDate = p.Date,
+                        PatientId = p.Patient != null ? p.Patient.PatientId : string.Empty,
+                        ReceiptId = r != null ? r.Id : (int?)null,
+                        ReceiptAmount = (decimal)(r != null ? r.TotalAmount : 0),
+                        DoctorVcn = p.PrescribingDoctorVcnNoNavigation != null ? p.PrescribingDoctorVcnNoNavigation.VcnNo : string.Empty,
+                        PaymentMethod = r != null ? r.PaymentMethod : string.Empty
+                    })
+                    .ToList();
+                DgPrescription.ItemsSource = data;
+            }
+            else
+            {
+                var data = context.Prescriptions
+                    .Include(p => p.Receipts)
+                    .Include(p => p.Patient)
+                    .Include(p => p.PrescribingDoctorVcnNoNavigation)
+                    .Where(p => p.PatientId == currentPatient.PatientId &&
+                                p.PrescribingDoctorVcnNoNavigation.VcnNo == currentDoctor.VcnNo &&
+                                (p.Id.ToString().Contains(searchText) ||
+                                 p.PrescribingDoctorVcnNoNavigation.VcnNo.ToLower().Contains(searchText)))
+                    .SelectMany(p => p.Receipts.DefaultIfEmpty(), (p, r) => new
+                    {
+                        IsSelected = false,
+                        PrescriptionId = p.Id,
+                        PrescriptionDate = p.Date,
+                        PatientId = p.Patient != null ? p.Patient.PatientId : string.Empty,
+                        ReceiptId = r != null ? r.Id : (int?)null,
+                        ReceiptAmount = (decimal)(r != null ? r.TotalAmount : 0),
+                        DoctorVcn = p.PrescribingDoctorVcnNoNavigation != null ? p.PrescribingDoctorVcnNoNavigation.VcnNo : string.Empty,
+                        PaymentMethod = r != null ? r.PaymentMethod : string.Empty
+                    })
+                    .ToList();
+                DgPrescription.ItemsSource = data;
+            }
+        }
     }
 
     public class PrescriptionViewModel

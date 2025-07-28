@@ -242,5 +242,22 @@ namespace VeterinaryClinic.DoctorView
                 Page_Loaded();
             }
         }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = SearchBox.Text.ToLower();
+            if(string.IsNullOrEmpty(searchText))
+            {
+                DgPrescribedMeds.ItemsSource = context.Prescribedmeds.Where(pm => pm.PrescriptionId == prescription.Id).Include(pm => pm.Medication)
+                    .ToList();
+                return;
+            }else
+            {
+                DgPrescribedMeds.ItemsSource = context.Prescribedmeds.Where(pm => pm.PrescriptionId == prescription.Id && 
+                    (pm.Medication.TradeName.ToLower().Contains(searchText) || pm.Medication.GenericName.ToLower().Contains(searchText)))
+                    .Include(pm => pm.Medication)
+                    .ToList();
+            }            
+        }
     }
 }

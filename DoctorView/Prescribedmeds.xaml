@@ -297,7 +297,7 @@
                                     <TextBlock Grid.Column="0" Text="🔍" FontSize="16" 
                                              VerticalAlignment="Center" Margin="12,0,8,0" 
                                              Foreground="#999"/>
-                                    <TextBox Grid.Column="1" x:Name="SearchBox" 
+                                    <TextBox Grid.Column="1" x:Name="SearchBox" TextChanged="SearchBox_TextChanged"
                                            Background="Transparent" BorderThickness="0" 
                                            VerticalAlignment="Center" FontSize="14"
                                            Foreground="#333" Margin="0,0,12,0"/>
@@ -435,8 +435,8 @@
                                     <DataGridTextColumn Header="Prescription ID" 
                                                       Binding="{Binding PrescriptionId}" 
                                                       Width="*"/>
-                                    <DataGridTextColumn Header="Medication ID" 
-                                                      Binding="{Binding MedicationId}" 
+                                    <DataGridTextColumn Header="Medication Name" 
+                                                      Binding="{Binding Medication.GenericName}" 
                                                       Width="*"/>
                                     <DataGridTextColumn Header="Frequency" 
                                                       Binding="{Binding Frequency}" 
