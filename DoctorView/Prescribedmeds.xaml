@@ -346,9 +346,16 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Name="AISuggestion" MinHeight="150"  Background="Aqua">
+                                        
+                                    </StackPanel>
                                     <!-- Left Column -->
-                                    <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,15,0">
                                         <TextBlock Text="Prescription ID" FontWeight="SemiBold" 
                                                  Foreground="#2C3E50" Margin="0,0,0,5"/>
                                         <TextBox Name="PresId" IsReadOnly="True" 
@@ -369,7 +376,7 @@
                                     </StackPanel>
 
                                     <!-- Right Column -->
-                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="15,0,0,0">
                                         <TextBlock Name="MedIdTitle" Text="Medication" 
                                                  FontWeight="SemiBold" Foreground="#2C3E50" 
                                                  Margin="0,0,0,5"/>

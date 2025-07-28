@@ -53,5 +53,20 @@ namespace VeterinaryClinic.AdminView
             
 
         }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = SearchBox.Text.ToLower();
+            if (prescription != null)
+            {
+                DgPresMed.ItemsSource = context.Prescribedmeds.Where(pm => (pm.Frequency.ToLower().Contains(searchText) || pm.Route.ToLower().Contains(searchText) || pm.Medication.GenericName.ToLower().Contains(searchText) || pm.Medication.TradeName.ToLower().Contains(searchText)) && pm.PrescriptionId == prescription.Id).Include(pm => pm.Medication)
+                .ToList();
+            }
+            else
+            {
+                DgPresMed.ItemsSource = context.Prescribedmeds.Include(pm => pm.Medication).Where(pm => (pm.Frequency.ToLower().Contains(searchText) || pm.Route.ToLower().Contains(searchText) || pm.Medication.GenericName.ToLower().Contains(searchText) || pm.Medication.TradeName.ToLower().Contains(searchText)))
+                .ToList();
+            }
+        }
     }
 }

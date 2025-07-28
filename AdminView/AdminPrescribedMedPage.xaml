@@ -9,42 +9,329 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdminPrescribedMedPage">
 
-    <Grid Background="#F8F9FA">
+    <Page.Resources>
+        <!-- Modern Button Style -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1D4ED8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern TextBox Style -->
+        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#111827"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="{TemplateBinding Padding}"
+                                        VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#2563EB"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#9CA3AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern DataGrid Style -->
+        <Style x:Key="ModernDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#F3F4F6"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowHeight" Value="48"/>
+        </Style>
+
+        <!-- Modern DataGrid Header Style -->
+        <Style x:Key="ModernDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="Height" Value="44"/>
+        </Style>
+
+        <!-- Modern DataGrid Cell Style -->
+        <Style x:Key="ModernDataGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#EBF4FF"/>
+                    <Setter Property="Foreground" Value="#1E40AF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#F8FAFC">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
         <views:AdminSidebar Grid.Column="0" />
-        <StackPanel Grid.Column="1" Margin="20">
-            <TextBlock Text="Prescribed Medical Management" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" Foreground="#799EFF"/>
-            <DataGrid Name="DgPresMed" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Prescription ID" 
-                          Binding="{Binding PrescriptionId}" 
-                          Width="*"/>
-                    <DataGridTextColumn Header="Medication ID" 
-                          Binding="{Binding MedicationId}" 
-                          Width="*"/>
-                    <DataGridTextColumn Header="Frequency" 
-                          Binding="{Binding Frequency}" 
-                          Width="*"/>
-                    <DataGridTextColumn Header="Route" 
-                          Binding="{Binding Route}"                                    
-                           Width="*"/>
-                    <DataGridTextColumn Header="Date" 
-                          Binding="{Binding Date}" 
-                          Width="*"/>
-                    <DataGridTextColumn Header="Quantity" 
-                          Binding="{Binding Quantity}" 
-                          Width="*"/>
-                    <DataGridTextColumn Header="Sale Price" 
-                          Binding="{Binding Medication.SalePricePerUnit}" 
-                          Width="*"/>
-                    <DataGridTextColumn Header="Total Price" 
-                          Binding="{Binding TotalPrice}" 
-                          Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1" Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <Border Grid.Row="0" 
+                    Background="White" 
+                    CornerRadius="12" 
+                    Padding="24" 
+                    Margin="0,0,0,24"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Prescribed Medical Management" 
+                                 FontSize="28" 
+                                 FontWeight="Bold" 
+                                 Foreground="#111827" 
+                                 Margin="0,0,0,8"/>
+                        <TextBlock Text="Manage and monitor prescribed medications for patients" 
+                                 FontSize="16" 
+                                 Foreground="#6B7280"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" 
+                              Orientation="Horizontal" 
+                              VerticalAlignment="Center">
+                        <TextBlock Text="Total Records: " 
+                                 FontSize="14" 
+                                 FontWeight="Medium" 
+                                 Foreground="#374151" 
+                                 VerticalAlignment="Center" 
+                                 Margin="0,0,8,0"/>
+                        <TextBlock x:Name="TotalRecordsText" 
+                                 Text="0" 
+                                 FontSize="14" 
+                                 FontWeight="Bold" 
+                                 Foreground="#2563EB" 
+                                 VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Control Panel -->
+            <Border Grid.Row="1" 
+                    Background="White" 
+                    CornerRadius="12" 
+                    Padding="24" 
+                    Margin="0,0,0,24"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Search Box -->
+                    <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                        <TextBlock Text="Search" 
+                                 FontSize="12" 
+                                 FontWeight="Medium" 
+                                 Foreground="#6B7280" 
+                                 Margin="0,0,0,4"/>
+                        <TextBox Name="SearchBox" 
+                               
+                               TextChanged="SearchBox_TextChanged"
+                               Height="44"/>
+                    </StackPanel>
+
+                    <!-- Sort Dropdown -->
+                    <StackPanel Grid.Column="1" Margin="0,0,16,0">
+                        <TextBlock Text="Sort By" 
+                                 FontSize="12" 
+                                 FontWeight="Medium" 
+                                 Foreground="#6B7280" 
+                                 Margin="0,0,0,4"/>
+                        <ComboBox x:Name="SortComboBox"                                 
+                                Width="140" 
+                                Height="44">
+                            <ComboBoxItem Content="Date (Latest)"/>
+                            <ComboBoxItem Content="Date (Oldest)"/>
+                            <ComboBoxItem Content="Price (High to Low)"/>
+                            <ComboBoxItem Content="Price (Low to High)"/>
+                            <ComboBoxItem Content="Prescription ID"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Filter Dropdown -->
+                    <StackPanel Grid.Column="2" Margin="0,0,16,0">
+                        <TextBlock Text="Filter By" 
+                                 FontSize="12" 
+                                 FontWeight="Medium" 
+                                 Foreground="#6B7280" 
+                                 Margin="0,0,0,4"/>
+                        <ComboBox x:Name="FilterComboBox"                                 
+                                Width="140" 
+                                Height="44">
+                            <ComboBoxItem Content="All Records"/>
+                            <ComboBoxItem Content="This Week"/>
+                            <ComboBoxItem Content="This Month"/>
+                            <ComboBoxItem Content="This Year"/>
+                            <ComboBoxItem Content="High Value (>$100)"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Export Button -->
+                    <StackPanel Grid.Column="3" Margin="0,0,16,0">
+                        <TextBlock Text="Actions" 
+                                 FontSize="12" 
+                                 FontWeight="Medium" 
+                                 Foreground="#6B7280" 
+                                 Margin="0,0,0,4"/>
+                        <Button x:Name="ExportButton" 
+                              Style="{StaticResource ModernButtonStyle}"
+                              Width="100" 
+                              Height="44"
+                              Content="Export"/>
+                    </StackPanel>
+
+                    <!-- Refresh Button -->
+                    <StackPanel Grid.Column="4">
+                        <TextBlock Text="Refresh" 
+                                 FontSize="12" 
+                                 FontWeight="Medium" 
+                                 Foreground="#6B7280" 
+                                 Margin="0,0,0,4"/>
+                        <Button x:Name="RefreshButton" 
+                              Style="{StaticResource ModernButtonStyle}"
+                              Width="80" 
+                              Height="44"
+                              Content="⟳ Refresh"
+                              Background="#10B981">
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Data Grid Container -->
+            <Border Grid.Row="2" 
+                    Background="White" 
+                    CornerRadius="12" 
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1">
+                <DataGrid Name="DgPresMed" 
+                        AutoGenerateColumns="False" 
+                        CanUserAddRows="False" 
+                        Style="{StaticResource ModernDataGridStyle}"
+                        ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeaderStyle}"
+                        CellStyle="{StaticResource ModernDataGridCellStyle}"
+                        Margin="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Prescription ID" 
+                                          Binding="{Binding PrescriptionId}" 
+                                          Width="*"
+                                          MinWidth="120"/>
+                        <DataGridTextColumn Header="Medication Name" 
+                                          Binding="{Binding Medication.GenericName}" 
+                                          Width="*"
+                                          MinWidth="150"/>
+                        <DataGridTextColumn Header="Frequency" 
+                                          Binding="{Binding Frequency}" 
+                                          Width="*"
+                                          MinWidth="100"/>
+                        <DataGridTextColumn Header="Route" 
+                                          Binding="{Binding Route}"                                    
+                                          Width="*"
+                                          MinWidth="100"/>
+                        <DataGridTextColumn Header="Date Prescribed" 
+                                          Binding="{Binding Date, StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                          Width="*"
+                                          MinWidth="130"/>
+                        <DataGridTextColumn Header="Quantity" 
+                                          Binding="{Binding Quantity}" 
+                                          Width="*"
+                                          MinWidth="80"/>
+                        <DataGridTextColumn Header="Unit Price" 
+                                          Binding="{Binding Medication.SalePricePerUnit, StringFormat='{}{0:C}'}" 
+                                          Width="*"
+                                          MinWidth="100"/>
+                        <DataGridTextColumn Header="Total Price" 
+                                          Binding="{Binding TotalPrice, StringFormat='{}{0:C}'}" 
+                                          Width="*"
+                                          MinWidth="110"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

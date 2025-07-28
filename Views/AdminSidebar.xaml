@@ -29,7 +29,7 @@
 
             <!-- Menu -->
             <ListBox Background="Transparent" BorderThickness="0" Foreground="White">
-                <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
+                <ListBoxItem Content="🏠 Dashboard" Padding="10" FontSize="15" FontWeight="Bold" Name="DashboardItem" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📜 Doctors" Name="DoctorListItem" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📜 Prepscription" Name="Prepscription" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📜 Prescribed Med" Name="PrescribedMed" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>

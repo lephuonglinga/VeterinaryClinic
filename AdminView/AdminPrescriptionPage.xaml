@@ -9,40 +9,373 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdminPrescriptionPage">
 
-    <Grid Background="#F8F9FA">
+    <Page.Resources>
+        <!-- Modern Button Style -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1D4ED8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Action Button Style -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#059669"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#047857"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#065f46"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Modern TextBox Style -->
+        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#111827"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5, 2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="{TemplateBinding Padding}"
+                                        VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#2563EB"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#9CA3AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Card Style DataGrid -->
+        <Style x:Key="CardDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="Transparent"/>
+            <Setter Property="AlternatingRowBackground" Value="Transparent"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowHeight" Value="100"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserResizeColumns" Value="False"/>
+            <Setter Property="CanUserSortColumns" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+
+        <!-- Card Row Style -->
+        <Style x:Key="CardRowStyle" TargetType="DataGridRow">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0,0,0,16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridRow">
+                        <Border Background="White" 
+                                CornerRadius="12" 
+                                BorderBrush="#E5E7EB" 
+                                BorderThickness="1"
+                                Margin="0,0,0,16">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#000000" 
+                                                Opacity="0.05" 
+                                                BlurRadius="10" 
+                                                ShadowDepth="2"/>
+                            </Border.Effect>
+                            <DataGridCellsPresenter Margin="24,20"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                               
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Card Cell Style -->
+        <Style x:Key="CardCellStyle" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#F8FAFC">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
         <views:AdminSidebar Grid.Column="0" />
-        <StackPanel Grid.Column="1" Margin="20">
-            <TextBlock Text="Prescription Management" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" Foreground="#799EFF"/>
-            <DataGrid Name="PrescriptionDataGrid" AutoGenerateColumns="False" CanUserAddRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Prescription ID" Binding="{Binding PrescriptionId}" Width="*"/>
-                    <DataGridTextColumn Header="PrescriptionDate" Binding="{Binding PrescriptionDate}" Width="*"/>
-                    <DataGridTextColumn Header="ReceiptAmount" Binding="{Binding ReceiptAmount}" Width="*"/>
-                    <DataGridTextColumn Header="DoctorVcn" Binding="{Binding DoctorVcn}" Width="*"/>
-                    <DataGridTextColumn Header="ReceiptDate" Binding="{Binding ReceiptDate}" Width="*"/>
-                    <DataGridTemplateColumn Header="Actions" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Background="#3498DB" 
-                    CornerRadius="4" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center">
-                                    <Button Content="View Medications" 
-                    Name="Presribedmeds" 
-                     Click="Presribedmeds_Click"
-                    Tag="{Binding PrescriptionId}"             
-                    MinWidth="120" Height="32"
-                    Margin="2"/>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1" Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <Border Grid.Row="0" 
+                    Background="White" 
+                    CornerRadius="12" 
+                    Padding="24" 
+                    Margin="0,0,0,24"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Prescription Management" 
+                                 FontSize="28" 
+                                 FontWeight="Bold" 
+                                 Foreground="#111827" 
+                                 Margin="0,0,0,8"/>
+                        <TextBlock Text="Manage and view prescription details and medications" 
+                                 FontSize="16" 
+                                 Foreground="#6B7280"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" 
+                              Orientation="Horizontal" 
+                              VerticalAlignment="Center">
+                        <Border Background="#FEF3C7" 
+                              CornerRadius="6" 
+                              Padding="8,4" 
+                              Margin="0,0,12,0">
+                            <TextBlock Text="📋 Active Prescriptions" 
+                                     FontSize="12" 
+                                     FontWeight="Medium" 
+                                     Foreground="#92400E"/>
+                        </Border>
+                        <TextBlock Text="Total: " 
+                                 FontSize="14" 
+                                 FontWeight="Medium" 
+                                 Foreground="#374151" 
+                                 VerticalAlignment="Center" 
+                                 Margin="0,0,8,0"/>
+                        <TextBlock x:Name="TotalPrescriptionsText" 
+                                 Text="0" 
+                                 FontSize="14" 
+                                 FontWeight="Bold" 
+                                 Foreground="#2563EB" 
+                                 VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Search Section -->
+            <Border Grid.Row="1" 
+                    Background="White" 
+                    CornerRadius="12" 
+                    Padding="24" 
+                    Margin="0,0,0,24"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Search Box -->
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Search Prescriptions" 
+                                 FontSize="12" 
+                                 FontWeight="Medium" 
+                                 Foreground="#6B7280" 
+                                 Margin="0,0,0,4"/>
+                        <TextBox x:Name="SearchBox" 
+                               Style="{StaticResource ModernTextBoxStyle}"
+                               Height="44"
+                               Tag="🔍 Search by Prescription ID, Doctor VCN, or Date..."/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Prescription Cards Container -->
+            <Border Grid.Row="2" 
+                    Background="Transparent" 
+                    CornerRadius="12" 
+                    Margin="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                            HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid Name="PrescriptionDataGrid" 
+                            AutoGenerateColumns="False" 
+                            CanUserAddRows="False"
+                            Style="{StaticResource CardDataGridStyle}"
+                            RowStyle="{StaticResource CardRowStyle}"
+                            CellStyle="{StaticResource CardCellStyle}">
+                        <DataGrid.Columns>
+                            <!-- Card Layout Column -->
+                            <DataGridTemplateColumn Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Prescription Icon -->
+                                            <Border Grid.Column="0" 
+                                                  Background="#FEF3C7" 
+                                                  CornerRadius="50" 
+                                                  Width="80" 
+                                                  Height="80" 
+                                                  Margin="0,0,20,0">
+                                                <TextBlock Text="📋" 
+                                                         FontSize="36" 
+                                                         HorizontalAlignment="Center" 
+                                                         VerticalAlignment="Center"/>
+                                            </Border>
+
+                                            <!-- Prescription Information -->
+                                            <StackPanel Grid.Column="1" 
+                                                      VerticalAlignment="Center">
+                                                <!-- Prescription ID and Date -->
+                                                <StackPanel Orientation="Horizontal" 
+                                                          Margin="0,0,0,8">
+                                                    <TextBlock Text="Prescription #" 
+                                                             FontSize="16" 
+                                                             FontWeight="SemiBold" 
+                                                             Foreground="#6B7280" 
+                                                             Margin="0,0,4,0"/>
+                                                    <TextBlock Text="{Binding PrescriptionId}" 
+                                                             FontSize="18" 
+                                                             FontWeight="Bold" 
+                                                             Foreground="#111827" 
+                                                             Margin="0,0,16,0"/>
+                                                    <Border Background="#EBF4FF" 
+                                                          CornerRadius="4" 
+                                                          Padding="6,2">
+                                                        <TextBlock Text="{Binding PrescriptionDate, StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                                                 FontSize="10" 
+                                                                 FontWeight="Medium" 
+                                                                 Foreground="#2563EB"/>
+                                                    </Border>
+                                                </StackPanel>
+
+                                                <!-- Doctor and Receipt Info -->
+                                                <StackPanel Orientation="Horizontal" 
+                                                          Margin="0,0,0,4">
+                                                    <TextBlock Text="👨‍⚕️" 
+                                                             FontSize="14" 
+                                                             Margin="0,0,8,0"/>
+                                                    <TextBlock Text="Doctor VCN: " 
+                                                             FontSize="14" 
+                                                             Foreground="#6B7280" 
+                                                             Margin="0,0,4,0"/>
+                                                    <TextBlock Text="{Binding DoctorVcn}" 
+                                                             FontSize="14" 
+                                                             FontWeight="Medium" 
+                                                             Foreground="#374151"
+                                                             Margin="0,0,24,0"/>
+                                                    <TextBlock Text="💰" 
+                                                             FontSize="14" 
+                                                             Margin="0,0,8,0"/>
+                                                    <TextBlock Text="Amount: " 
+                                                             FontSize="14" 
+                                                             Foreground="#6B7280" 
+                                                             Margin="0,0,4,0"/>
+                                                    <TextBlock Text="{Binding ReceiptAmount, StringFormat='{}{0:C}'}" 
+                                                             FontSize="14" 
+                                                             FontWeight="Bold" 
+                                                             Foreground="#059669"/>
+                                                </StackPanel>
+
+                                                <!-- Receipt Date -->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="📅" 
+                                                             FontSize="14" 
+                                                             Margin="0,0,8,0"/>
+                                                    <TextBlock Text="Receipt Date: " 
+                                                             FontSize="14" 
+                                                             Foreground="#6B7280" 
+                                                             Margin="0,0,4,0"/>
+                                                    <TextBlock Text="{Binding ReceiptDate, StringFormat='{}{0:MMM dd, yyyy}'}" 
+                                                             FontSize="14" 
+                                                             FontWeight="Medium" 
+                                                             Foreground="#374151"/>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <!-- Action Button -->
+                                            <StackPanel Grid.Column="2" 
+                                                      VerticalAlignment="Center">
+                                                <Button Content="View Medications" 
+                                                      Name="Presribedmeds" 
+                                                      Click="Presribedmeds_Click"
+                                                      Tag="{Binding PrescriptionId}"             
+                                                      MinWidth="120" 
+                                                      Height="32"
+                                                      Style="{StaticResource ActionButtonStyle}"
+                                                      Margin="2"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

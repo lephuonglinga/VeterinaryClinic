@@ -35,6 +35,9 @@ namespace VeterinaryClinic.Views
                 {
                     switch (item.Name)
                     {
+                        case "DashboardItem":
+                            adminWindow.MainFrame.Navigate(new AdminDashboardPage());
+                            break;
                         case "DoctorListItem":
                             adminWindow.MainFrame.Navigate(new DoctorList());
                             break;
