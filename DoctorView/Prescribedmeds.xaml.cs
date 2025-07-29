@@ -178,7 +178,26 @@ namespace VeterinaryClinic.DoctorView
             {
                 Prescribedmed newPrescribedmed = new Prescribedmed();
                 newPrescribedmed.PrescriptionId = prescription.Id;
-                newPrescribedmed.MedicationId = (int)MedId.SelectedValue;                
+                int medId = (int)MedId.SelectedValue;
+                PharmacyInventory? pi = context.PharmacyInventories.FirstOrDefault(pi => pi.ItemId == medId);
+                if(pi == null)
+                {
+                    MessageBox.Show("Medicine not found");
+                    return;
+                }
+                var expDate = new DateTime(
+                     pi.ExpirationDate.Value.Year,
+                     pi.ExpirationDate.Value.Month,
+                     pi.ExpirationDate.Value.Day
+                 );
+
+                if (expDate <= DateTime.Now)
+                {
+                    MessageBox.Show($"Medicine is about to out date in {expDate}");
+                    return;
+                }
+
+                newPrescribedmed.MedicationId = medId;
                 if (int.TryParse(Quantity.Text, out int quantity))
                 {
                     newPrescribedmed.Quantity = quantity;
@@ -212,6 +231,7 @@ namespace VeterinaryClinic.DoctorView
                 }
 
                     context.Prescribedmeds.Add(newPrescribedmed);
+                
                 context.SaveChanges();
             }
             else

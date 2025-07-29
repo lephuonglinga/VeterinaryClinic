@@ -213,7 +213,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="8" Height="8" Fill="{StaticResource PrimaryBlue}" Margin="0,0,8,0"/>
                                 <TextBlock Text="Total Pets" FontSize="12" Foreground="{StaticResource MediumGray}" Margin="0,0,8,0"/>
-                                <TextBlock x:Name="TotalPetsCount" Text="0" FontWeight="Bold" Foreground="{StaticResource DarkGray}"/>
+                                <TextBlock x:Name="TotalPetsCount" Text="{Binding ElementName=dgPatients, Path=Items.Count}" FontWeight="Bold" Foreground="{StaticResource DarkGray}"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>

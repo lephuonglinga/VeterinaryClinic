@@ -351,7 +351,7 @@
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="Total Patients: " FontSize="14" Foreground="#6C757D" 
                                        VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <TextBlock Text="0" FontSize="14" FontWeight="Bold" Foreground="#03A6A1" 
+                            <TextBlock Text="{Binding ElementName=PatientDataGrid, Path=Items.Count}" FontSize="14" FontWeight="Bold" Foreground="#03A6A1" 
                                        VerticalAlignment="Center"/>
                         </StackPanel>
                     </Grid>

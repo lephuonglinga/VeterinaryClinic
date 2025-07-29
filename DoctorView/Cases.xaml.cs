@@ -157,6 +157,7 @@ namespace VeterinaryClinic.DoctorView
             CaseId.Text = @case.Id.ToString();                     
             Diagnosis.SelectedValue = @case.DiagnosisId;
             CaseType.SelectedValue = @case.CaseType;
+            Note.Text = @case.Notes;
 
         }
 
