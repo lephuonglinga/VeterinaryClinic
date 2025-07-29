@@ -336,36 +336,7 @@
                             <ComboBoxItem Content="Expiring Soon"/>
                         </ComboBox>
                     </StackPanel>
-
-                    <!-- Add New Item Button -->
-                    <StackPanel Grid.Column="3" Margin="0,0,16,0">
-                        <TextBlock Text="Actions" 
-                                 FontSize="12" 
-                                 FontWeight="Medium" 
-                                 Foreground="#6B7280" 
-                                 Margin="0,0,0,4"/>
-                        <Button x:Name="AddNewItemButton" 
-                              Style="{StaticResource ModernButtonStyle}"
-                              Width="120" 
-                              Height="44"
-                              Content="+ Add New Item"/>
-                    </StackPanel>
-
-                    <!-- Export Button -->
-                    <StackPanel Grid.Column="4">
-                        <TextBlock Text="Export" 
-                                 FontSize="12" 
-                                 FontWeight="Medium" 
-                                 Foreground="#6B7280" 
-                                 Margin="0,0,0,4"/>
-                        <Button x:Name="ExportButton" 
-                              Style="{StaticResource ModernButtonStyle}"
-                              Width="100" 
-                              Height="44"
-                              Content="📊 Export"
-                              Background="#8B5CF6">
-                        </Button>
-                    </StackPanel>
+                    
                 </Grid>
             </Border>
 

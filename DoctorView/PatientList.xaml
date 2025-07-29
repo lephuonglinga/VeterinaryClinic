@@ -395,8 +395,11 @@
                         <StackPanel>
                             <TextBlock Name="Title" Text="Add New Patient" FontSize="20" FontWeight="Bold" 
                                        Foreground="#212529" HorizontalAlignment="Center" Margin="0,0,0,25"/>
-                            <TextBlock Name="PatientId" FontSize="15" FontWeight="Medium" 
-                                       Foreground="Brown" HorizontalAlignment="Center" Margin="0,0,0,25">Patient ID: </TextBlock>
+                            <StackPanel Name="Info" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,25">
+                                <TextBlock Text="Patient ID: " FontSize="15" FontWeight="Medium" 
+                                           Foreground="#495057" Margin="0,0,10,0"/>
+                                <TextBox Name="PatientId" IsReadOnly="True"></TextBox>
+                            </StackPanel>
                             <!-- Client Selection -->                            
 
                             <!-- Patient Details -->
@@ -484,6 +487,12 @@
                                                         Width="*" MinWidth="120"/>
                                     <DataGridTextColumn Header="Species" 
                                                         Binding="{Binding Species.Name}" 
+                                                        Width="*" MinWidth="120"/>
+                                    <DataGridTextColumn Header="Sex" 
+                                                        Binding="{Binding Sex}" 
+                                                        Width="*" MinWidth="120"/>
+                                    <DataGridTextColumn Header="Age Group" 
+                                                        Binding="{Binding AgeGroup}" 
                                                         Width="*" MinWidth="120"/>
                                     <DataGridTemplateColumn Header="Actions" Width="*" MinWidth="350">
                                         <DataGridTemplateColumn.CellTemplate>

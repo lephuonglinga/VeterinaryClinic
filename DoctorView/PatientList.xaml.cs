@@ -63,7 +63,10 @@ namespace VeterinaryClinic.DoctorView
             CbSpecies.SelectedValuePath = "Id";
 
             cbSex.ItemsSource = new List<string> {"Male", "Female"};
-            cbAgeGroup.ItemsSource = new List<string> { "Avian", "Large Animal", "Small Animal" };
+            cbAgeGroup.ItemsSource = new List<string> { "Young", "Adult" };
+
+            cbSex.SelectedIndex = 0;
+            cbAgeGroup.SelectedIndex = 0;
 
             CbClient.ItemsSource = context.Clients.Include(c => c.UsernameNavigation).ToList();
             if (currentClient != null)
@@ -155,7 +158,7 @@ namespace VeterinaryClinic.DoctorView
                 patient.SpeciesId = (int)CbSpecies.SelectedValue;
                 patient.ClientId = CbClient.SelectedValue.ToString();
                 patient.Sex = cbSex.SelectedItem as string;
-                patient.AgeGroup = "Young";
+                patient.AgeGroup = cbAgeGroup.SelectedItem as string;
                 string patientId;
 
                 //generrate unique patientId
@@ -200,8 +203,8 @@ namespace VeterinaryClinic.DoctorView
             cbSex.SelectedItem = selectedPatient?.Sex;
             cbAgeGroup.SelectedItem = selectedPatient?.AgeGroup;
             //format the form for editing                                    
-            PatientId.Visibility = Visibility.Visible;
-            PatientId.Text = "Patient ID: " + selectedPatient?.PatientId;
+            Info.Visibility = Visibility.Visible;
+            PatientId.Text = selectedPatient?.PatientId;
         }
 
         private void ViewPres_Click(object sender, RoutedEventArgs e)

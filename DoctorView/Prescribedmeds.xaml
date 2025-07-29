@@ -351,9 +351,34 @@
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Name="AISuggestion" MinHeight="150"  Background="Aqua">
-                                        
+                                    <StackPanel Grid.Column="0" Grid.ColumnSpan="2" x:Name="AISuggestion" Margin="10" Background="WhiteSmoke">
+                                        <!-- Medication ID -->
+                                        <TextBlock Text="Medication ID:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding MedicationId}" Margin="0,0,0,8"/>
+
+                                        <!-- Reason -->
+                                        <TextBlock Text="Reason:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Reason}" TextWrapping="Wrap" Margin="0,0,0,8" />
+
+                                        <!-- Description -->
+                                        <TextBlock Text="Description:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,8" />
+
+                                        <!-- Quantity -->
+                                        <TextBlock Text="Quantity:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Quantity}" Margin="0,0,0,8" />
+
+                                        <!-- Frequency -->
+                                        <TextBlock Text="Frequency:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Frequency}" Margin="0,0,0,8" />
+
+                                        <!-- Route -->
+                                        <TextBlock Text="Route:" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Route}" Margin="0,0,0,8" />
+                                                                                
                                     </StackPanel>
+
+
                                     <!-- Left Column -->
                                     <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,15,0">
                                         <TextBlock Text="Prescription ID" FontWeight="SemiBold" 
@@ -380,7 +405,7 @@
                                         <TextBlock Name="MedIdTitle" Text="Medication" 
                                                  FontWeight="SemiBold" Foreground="#2C3E50" 
                                                  Margin="0,0,0,5"/>
-                                        <ComboBox Name="MedId" 
+                                        <ComboBox Name="MedId"
                                                 Style="{StaticResource ModernComboBoxStyle}"
                                                 Margin="0,0,0,15" SelectedIndex="0"/>
 

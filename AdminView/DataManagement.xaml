@@ -1,0 +1,441 @@
+﻿<Page x:Class="VeterinaryClinic.AdminView.DataManagement"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+xmlns:views="clr-namespace:VeterinaryClinic.Views"
+      xmlns:local="clr-namespace:VeterinaryClinic.AdminView"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DataManagement">
+
+    <Page.Resources>
+        <!-- Button Styles -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#005a9e"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004578"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#28a745"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#218838"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#1e7e34"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- TextBox Style -->
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D0D7DE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#007ACC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style x:Key="ModernComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D0D7DE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- DataGrid Style -->
+        <Style x:Key="ModernDataGrid" TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D0D7DE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#F6F8FA"/>
+            <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AlternatingRowBackground" Value="#F6F8FA"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <!-- TabControl Style -->
+        <Style x:Key="ModernTabControl" TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style x:Key="ModernTabItem" TargetType="TabItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#656D76"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Border" 
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0,0,0,2"
+                                BorderBrush="Transparent"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#007ACC"/>
+                                <Setter Property="Foreground" Value="#24292F"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#24292F"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#FFFFFF">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <views:AdminSidebar Grid.Column="0" />
+
+        <Grid Grid.Column="1" Margin="32">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="White" Padding="0,0,0,24">
+                <StackPanel>
+                    <TextBlock Text="Manage Lookups" 
+                               FontSize="28" 
+                               FontWeight="Bold" 
+                               Foreground="#24292F" 
+                               Margin="0,0,0,8"/>
+                    <TextBlock Text="Configure and manage system reference data" 
+                               FontSize="16" 
+                               Foreground="#656D76"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Content -->
+            <Border Grid.Row="1" 
+                    Background="White" 
+                    BorderBrush="#D0D7DE" 
+                    BorderThickness="1" 
+                    CornerRadius="8"
+                    Padding="0">
+                <TabControl Style="{StaticResource ModernTabControl}">
+                    <!-- Diagnosis Tab -->
+                    <TabItem Header="Diagnosis" Style="{StaticResource ModernTabItem}">
+                        <Grid Margin="32">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Form Section -->
+                            <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                                <TextBlock Text="Add New Diagnosis" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#24292F" 
+                                           Margin="0,0,0,16"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                        <TextBlock Text="Diagnosis Name" 
+                                                   Foreground="#24292F" 
+                                                   FontSize="14" 
+                                                   FontWeight="Medium"
+                                                   Margin="0,0,0,6"/>
+                                        <TextBox x:Name="DiagnosisNameTextBox" 
+                                                 Height="40" 
+                                                 Style="{StaticResource ModernTextBox}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" 
+                                                Orientation="Horizontal" 
+                                                VerticalAlignment="Bottom">
+                                        <Button x:Name="AddDiagnosisButton" 
+                                                Content="Add" 
+                                                Width="80" 
+                                                Height="40" 
+                                                Style="{StaticResource SecondaryButton}"
+                                                Click="AddDiagnosis_Click"/>
+                                        <Button x:Name="EditDiagnosisButton" 
+                                                Content="Edit" 
+                                                Width="80" 
+                                                Height="40" 
+                                                Style="{StaticResource PrimaryButton}"
+                                                Click="EditDiagnosis_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Separator -->
+                            <Border Grid.Row="1" 
+                                    Height="1" 
+                                    Background="#D0D7DE" 
+                                    Margin="0,0,0,24"/>
+
+                            <!-- Data Grid Section -->
+                            <StackPanel Grid.Row="2">
+                                <TextBlock Text="Existing Diagnoses" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#24292F" 
+                                           Margin="0,0,0,16"/>
+
+                                <DataGrid x:Name="DiagnosisGrid" 
+                                          AutoGenerateColumns="False" 
+                                          CanUserAddRows="False" 
+                                          Height="280"
+                                          Style="{StaticResource ModernDataGrid}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Breed Tab -->
+                    <TabItem Header="Breed" Style="{StaticResource ModernTabItem}">
+                        <Grid Margin="32">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Form Section -->
+                            <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                                <TextBlock Text="Add New Breed" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#24292F" 
+                                           Margin="0,0,0,16"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                        <TextBlock Text="Breed Name" 
+                                                   Foreground="#24292F" 
+                                                   FontSize="14" 
+                                                   FontWeight="Medium"
+                                                   Margin="0,0,0,6"/>
+                                        <TextBox x:Name="BreedNameTextBox" 
+                                                 Height="40" 
+                                                 Style="{StaticResource ModernTextBox}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" 
+                                                Orientation="Horizontal" 
+                                                VerticalAlignment="Bottom">
+                                        <Button x:Name="AddBreedButton" 
+                                                Content="Add" 
+                                                Width="80" 
+                                                Height="40" 
+                                                Style="{StaticResource SecondaryButton}"
+                                                Click="AddBreed_Click"/>
+                                        <Button x:Name="EditBreedButton" 
+                                                Content="Edit" 
+                                                Width="80" 
+                                                Height="40" 
+                                                Style="{StaticResource PrimaryButton}"
+                                                Click="EditBreed_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Separator -->
+                            <Border Grid.Row="1" 
+                                    Height="1" 
+                                    Background="#D0D7DE" 
+                                    Margin="0,0,0,24"/>
+
+                            <!-- Data Grid Section -->
+                            <StackPanel Grid.Row="2">
+                                <TextBlock Text="Existing Breeds" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#24292F" 
+                                           Margin="0,0,0,16"/>
+
+                                <DataGrid x:Name="BreedGrid" 
+                                          AutoGenerateColumns="False" 
+                                          CanUserAddRows="False" 
+                                          Height="280"
+                                          Style="{StaticResource ModernDataGrid}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Species Tab -->
+                    <TabItem Header="Species" Style="{StaticResource ModernTabItem}">
+                        <Grid Margin="32">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Form Section -->
+                            <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                                <TextBlock Text="Add New Species" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#24292F" 
+                                           Margin="0,0,0,16"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                        <TextBlock Text="Species Name" 
+                                                   Foreground="#24292F" 
+                                                   FontSize="14" 
+                                                   FontWeight="Medium"
+                                                   Margin="0,0,0,6"/>
+                                        <TextBox x:Name="SpeciesNameTextBox" 
+                                                 Height="40" 
+                                                 Style="{StaticResource ModernTextBox}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="0,0,16,0">
+                                        <TextBlock Text="Unit" 
+                                                   Foreground="#24292F" 
+                                                   FontSize="14" 
+                                                   FontWeight="Medium"
+                                                   Margin="0,0,0,6"/>
+                                        <ComboBox x:Name="SpeciesUnitTextBox" 
+                                                  Height="40" 
+                                                  Style="{StaticResource ModernComboBox}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" 
+                                                Orientation="Horizontal" 
+                                                VerticalAlignment="Bottom">
+                                        <Button x:Name="AddSpeciesButton" 
+                                                Content="Add" 
+                                                Width="80" 
+                                                Height="40" 
+                                                Style="{StaticResource SecondaryButton}"
+                                                Click="AddSpecies_Click"/>
+                                        <Button x:Name="EditSpeciesButton" 
+                                                Content="Edit" 
+                                                Width="80" 
+                                                Height="40" 
+                                                Style="{StaticResource PrimaryButton}"
+                                                Click="EditSpecies_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Separator -->
+                            <Border Grid.Row="1" 
+                                    Height="1" 
+                                    Background="#D0D7DE" 
+                                    Margin="0,0,0,24"/>
+
+                            <!-- Data Grid Section -->
+                            <StackPanel Grid.Row="2">
+                                <TextBlock Text="Existing Species" 
+                                           FontSize="18" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#24292F" 
+                                           Margin="0,0,0,16"/>
+
+                                <DataGrid x:Name="SpeciesGrid" 
+                                          AutoGenerateColumns="False" 
+                                          CanUserAddRows="False" 
+                                          Height="280"
+                                          Style="{StaticResource ModernDataGrid}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                                        <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Border>
+        </Grid>
+    </Grid>
+
+</Page>

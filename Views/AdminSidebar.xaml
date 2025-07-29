@@ -34,6 +34,7 @@
                 <ListBoxItem Content="📜 Prepscription" Name="Prepscription" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📜 Prescribed Med" Name="PrescribedMed" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
                 <ListBoxItem Content="📄 Pharmacy" Name="PharmacyInventoryItem" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
+                <ListBoxItem Content="📄 Data Management" Name="DataManagement" Padding="10" FontSize="15" FontWeight="Bold" Selected="ListBoxItem_Selected"/>
             </ListBox>
             
         </StackPanel>

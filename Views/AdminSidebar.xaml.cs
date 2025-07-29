@@ -50,6 +50,9 @@ namespace VeterinaryClinic.Views
                         case "PrescribedMed":
                             adminWindow.MainFrame.Navigate(new AdminPrescribedMedPage(null));
                             break;
+                        case "DataManagement":
+                            adminWindow.MainFrame.Navigate(new DataManagement());
+                        break;
                         default:
                             MessageBox.Show("Selected item is not available.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             break;

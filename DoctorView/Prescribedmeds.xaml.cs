@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VeterinaryClinic.DTOs;
 using VeterinaryClinic.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace VeterinaryClinic.DoctorView
 {
@@ -23,6 +24,10 @@ namespace VeterinaryClinic.DoctorView
     /// </summary>
     public partial class Prescribedmeds : Page
     {
+        private readonly CaseBackgroundDataService _caseService;
+        private readonly PharmacyInventoryDataService _pharmacyService;
+        private readonly GeminiMedicationSuggestionService _geminiService;
+
         Prescription? prescription;
         VeterinaryClinicContext context = new VeterinaryClinicContext();
         bool isEdit = false;
@@ -35,6 +40,11 @@ namespace VeterinaryClinic.DoctorView
             }
             this.prescription = prescription;
             InitializeComponent();
+
+            _caseService = new CaseBackgroundDataService(new VeterinaryClinicContext());
+            _pharmacyService = new PharmacyInventoryDataService(new VeterinaryClinicContext());
+            _geminiService = new GeminiMedicationSuggestionService();
+
             Page_Loaded();
         }
 
@@ -91,12 +101,28 @@ namespace VeterinaryClinic.DoctorView
             Freq.Text = "";
             Route.Text = "";           
         }
-
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             Reset();
-            Open_Form(false);            
+
+            AISuggestion.Children.Clear();
+            AISuggestion.Visibility = Visibility.Visible;
+
+            MedId.ItemsSource = _pharmacyService.GetAvailablePharmacyInventoriesExcluding(
+                prescription.PatientId ?? "");
+
+            MedId.DisplayMemberPath = "TradeName";
+            MedId.SelectedValuePath = "ItemId";
+            if (MedId.Items.Count > 0)
+            {
+                MedId.SelectedIndex = 0;
+            }
+
+            ShowAISuggestions();
+
+            Open_Form(false);
         }
+
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
@@ -258,6 +284,103 @@ namespace VeterinaryClinic.DoctorView
                     .Include(pm => pm.Medication)
                     .ToList();
             }            
+        }
+
+        // Call this method when 'Add' button is clicked
+        private void ShowAISuggestions()
+        {
+            if (prescription == null)
+                return;
+
+            // Clear previous suggestions UI
+            AISuggestion.Children.Clear();
+
+            // 1. Load background cases for the patient
+            var patientCases = _caseService.GetCasesByPatientId(prescription.PatientId ?? "");
+
+            // 2. Load candidate medications excluding already prescribed meds
+            var candidateMeds = _pharmacyService.GetAvailablePharmacyInventoriesExcluding(prescription.PatientId ?? "").ToList();
+
+            // 3. Build prompt string for Gemini
+            string prompt = _geminiService.BuildPrompt(prescription.PatientId ?? "", patientCases, candidateMeds);
+
+            // 4. Get medication suggestions from Gemini
+            var suggestions = _geminiService.GetMedicationSuggestions(prompt, enableLogging: true);
+
+            if (suggestions.Count == 0)
+            {
+                TextBlock noSuggestionsText = new TextBlock() { Text = "No AI medication suggestions available.", Margin = new Thickness(5) };
+                AISuggestion.Children.Add(noSuggestionsText);
+                return;
+            }
+
+            // 5. Render each suggestion as a UI panel inside AISuggestion StackPanel
+            foreach (var suggestion in suggestions)
+            {
+                StackPanel panel = new StackPanel()
+                {
+                    Margin = new Thickness(10),
+                    Background = Brushes.WhiteSmoke,
+                    Width = 350
+                };
+
+                void AddLabelAndText(string label, string text)
+                {
+                    panel.Children.Add(new TextBlock() { Text = label, FontWeight = FontWeights.Bold });
+                    panel.Children.Add(new TextBlock() { Text = text, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 8) });
+                }
+
+                AddLabelAndText("Medication ID:", suggestion.MedicationId.ToString());
+                AddLabelAndText("Reason:", suggestion.Reason);
+                AddLabelAndText("Description:", suggestion.Description);
+                AddLabelAndText("Quantity:", suggestion.Quantity?.ToString() ?? "N/A");
+                AddLabelAndText("Frequency:", suggestion.Frequency ?? "N/A");
+                AddLabelAndText("Route:", suggestion.Route ?? "N/A");
+
+                Button addButton = new Button()
+                {
+                    Content = "Add This Medication",
+                    Width = 140,
+                    Height = 30,
+                    Margin = new Thickness(0, 10, 0, 0),
+                    Tag = suggestion // Store suggestion object for use in click handler
+                };
+                addButton.Click += SuggestedMedAdd_Click;               
+
+                panel.Children.Add(addButton);
+
+                AISuggestion.Children.Add(panel);
+            }
+
+            AISuggestion.Visibility = Visibility.Visible;
+        }
+
+        private void SuggestedMedAdd_Click(object sender, RoutedEventArgs e)
+        {            
+            if (sender is Button btn && btn.Tag is GeminiMedicationSuggestionDTO suggestion)
+            {
+                var meds = MedId.ItemsSource as IEnumerable<PharmacyInventory>;
+                if (meds == null || meds.Count() == 0)  return;
+
+                var medToSelect = meds.FirstOrDefault(m => m.ItemId == suggestion.MedicationId);
+                if (medToSelect == null) {
+                    MessageBox.Show("NOT FOUND");
+                    return; }
+
+                MedId.SelectedValue = medToSelect.ItemId;
+                Quantity.Text = suggestion.Quantity?.ToString() ?? "N/A";
+                Freq.Text = suggestion.Frequency ?? "N/A";
+                Route.Text = suggestion.Route ?? "N/A";
+
+                if (PresMedForm.Visibility != Visibility.Visible)
+                    PresMedForm.Visibility = Visibility.Visible;
+
+                AISuggestion.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("NO RESULT");
+            }
         }
     }
 }
